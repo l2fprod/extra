@@ -1,0 +1,4 @@
+.cache
+bin
+pkg
+src/extra/build

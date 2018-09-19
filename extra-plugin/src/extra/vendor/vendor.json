@@ -1,0 +1,169 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "oAduJy5yru1LeKVY5688e8w0DeQ=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "QygHJV/LEyEsOSKqWnz49jOBAXE=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix/authentication",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "ko6HhEtQ3dbtQl8JIbA26kf6wl0=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix/configuration",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "35Pieu+NdhckboT0K7E9u5SeO0s=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix/configuration/config_helpers",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "X4hg5dqe9aHCcakr/9m7M7bbPJM=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix/configuration/core_config",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "/Yo/SAX52DXiBZumus/JafabRqw=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/bluemix/models",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "j/IEZUQvDbIwktdwlFn5WsC82LQ=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/common/file_helpers",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "X8/GbfVe5QeygONhWM8iCTWxRWQ=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/common/rest",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "qXsZRIjqABFWIcUdNQ56eZ+K+SE=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/i18n",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "77VdKttlcpo+lVt85TECE4ZCJac=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/plugin",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "7Sn+bpll0wOxjiYSvTRzrg7jY6I=",
+			"path": "github.com/IBM-Cloud/ibm-cloud-cli-sdk/resources",
+			"revision": "0cedd30163583d004bc839dfbeb737436e25134f",
+			"revisionTime": "2018-06-29T19:23:13Z"
+		},
+		{
+			"checksumSHA1": "nwSshN6QJr3vSBdz+uPH4mJtK1g=",
+			"path": "github.com/fatih/structs",
+			"revision": "4966fc68f5b7593aafa6cbbba2d65ec6e1416047",
+			"revisionTime": "2018-09-14T09:55:22Z"
+		},
+		{
+			"checksumSHA1": "yIJ+NCgL0Yloyy9/Yh6vW9a5pkQ=",
+			"path": "github.com/gobuffalo/packr",
+			"revision": "2b3e29d6f829b39b0fab8accc6bb6a4bffb1ea57",
+			"revisionTime": "2018-09-06T14:44:41Z"
+		},
+		{
+			"checksumSHA1": "VpITAEdVb9EOPa1aDj+wnCQn9Mw=",
+			"path": "github.com/gorilla/handlers",
+			"revision": "7e0369fae54b097612a946bc6709f3a3fbccb3de",
+			"revisionTime": "2018-09-14T15:27:56Z"
+		},
+		{
+			"checksumSHA1": "Ld1fkCBbtUqRg3qu1gZKpP2OyO4=",
+			"path": "github.com/gorilla/mux",
+			"revision": "9e1f5955c0d22b55d9e20d6faa28589f83b2faca",
+			"revisionTime": "2018-09-03T15:43:05Z"
+		},
+		{
+			"checksumSHA1": "uEc9/1HbYGeK7wPStF6FmUlfzGE=",
+			"path": "github.com/nicksnyder/go-i18n/i18n",
+			"revision": "04f547cc50da4c144c5fdfd4495aef143637a236",
+			"revisionTime": "2018-08-14T03:13:59Z"
+		},
+		{
+			"checksumSHA1": "o/4Fy7/+tzNeueNBThMfD1F94PI=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/bundle",
+			"revision": "04f547cc50da4c144c5fdfd4495aef143637a236",
+			"revisionTime": "2018-08-14T03:13:59Z"
+		},
+		{
+			"checksumSHA1": "AdAaAicrUl+1k0wHNsjLU1c6z9A=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/language",
+			"revision": "04f547cc50da4c144c5fdfd4495aef143637a236",
+			"revisionTime": "2018-08-14T03:13:59Z"
+		},
+		{
+			"checksumSHA1": "XfE9yMmmRqZQGbtIP7f6F63Zx0w=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/translation",
+			"revision": "04f547cc50da4c144c5fdfd4495aef143637a236",
+			"revisionTime": "2018-08-14T03:13:59Z"
+		},
+		{
+			"checksumSHA1": "amsJse38+uT7Z7UkvtMzVefgZOM=",
+			"path": "github.com/pelletier/go-toml",
+			"revision": "c2dbbc24a97911339e01bda0b8cabdbd8f13b602",
+			"revisionTime": "2018-07-24T18:49:33Z"
+		},
+		{
+			"checksumSHA1": "18YrywDvb67HU8xYF5vqKMgelx0=",
+			"path": "github.com/pkg/errors",
+			"revision": "c059e472caf75dbe73903f6521a20abac245b17f",
+			"revisionTime": "2018-09-11T06:21:13Z"
+		},
+		{
+			"checksumSHA1": "1MGpGDQqnUoRpv7VEcQrXOBydXE=",
+			"path": "golang.org/x/crypto/pbkdf2",
+			"revision": "0e37d006457bf46f9e6692014ba72ef82c33022c",
+			"revisionTime": "2018-06-14T19:19:50Z"
+		},
+		{
+			"checksumSHA1": "BGm8lKZmvJbf/YOJLeL1rw2WVjA=",
+			"path": "golang.org/x/crypto/ssh/terminal",
+			"revision": "0e37d006457bf46f9e6692014ba72ef82c33022c",
+			"revisionTime": "2018-06-14T19:19:50Z"
+		},
+		{
+			"checksumSHA1": "F+tqxPGFt5x7DKZakbbMmENX1oQ=",
+			"path": "golang.org/x/net/websocket",
+			"revision": "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2",
+			"revisionTime": "2018-09-11T21:37:47Z"
+		},
+		{
+			"checksumSHA1": "GKC8IFNbSdF5HKJVx+Cm/3ASlH8=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "d0be0721c37eeb5299f245a996a483160fc36940",
+			"revisionTime": "2018-09-09T03:34:56Z"
+		},
+		{
+			"checksumSHA1": "wvpEa7a7bm3i833AmLpSarI51Yc=",
+			"path": "golang.org/x/sys/windows",
+			"revision": "d0be0721c37eeb5299f245a996a483160fc36940",
+			"revisionTime": "2018-09-09T03:34:56Z"
+		},
+		{
+			"checksumSHA1": "ZSWoOPUNRr5+3dhkLK3C4cZAQPk=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "5420a8b6744d3b0345ab293f6fcba19c978f1183",
+			"revisionTime": "2018-03-28T19:50:20Z"
+		}
+	],
+	"rootPath": "extra"
+}
