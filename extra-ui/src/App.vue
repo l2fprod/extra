@@ -1,8 +1,40 @@
 <template>
 <div id="app">
   <v-app id="app">
+    <v-navigation-drawer
+      :clipped="false"
+      :mini-variant="true"
+      app
+    >
+      <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/>
+            </v-list-tile-avatar>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+
+          <v-list class="pt-0" dense>
+      <v-divider></v-divider>
+
+            <v-list-tile to="/list">
+        <v-list-tile-action>
+          <v-icon>view_list</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+
+      <v-list-tile to="/columns">
+        <v-list-tile-action>
+          <v-icon>view_column</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+
+
+    </v-list>
+    </v-navigation-drawer>
     <v-toolbar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
       color="blue darken-3"
       dark
       app
@@ -27,7 +59,6 @@
       <v-btn color="info" v-on:click="refresh()">
         Refresh
       </v-btn>
-      <!-- <Avatar :name="$store.state.user.Email" v-if="$store.state.user != null" /> -->
       <!-- <v-progress-linear slot="extension" :indeterminate="true" class="ma-0">Progress?</v-progress-linear> -->
     </v-toolbar>
     <v-content>
@@ -38,6 +69,7 @@
       </v-container>
     </v-content>
     <v-footer
+      :inset="true"
       height="auto"
       color="primary lighten-1"
       fixed
