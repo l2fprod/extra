@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Api from '@/api/Api';
-import Item from './Item';
-import { createItem } from './ItemFactory';
+import { TYPES, createItem } from './ItemFactory';
+import Filter from '@/models/filters/Filter';
+import Item from '@/models/Item';
+import ItemLookup from '@/models/ItemLookup';
+import { TextFilter } from '@/models/filters/TextFilter';
 
 const api = new Api('http://0.0.0.0:32772');
 
@@ -11,21 +14,36 @@ Vue.use(Vuex);
 export class State {
   public user: any;
   public resources: Item[] = [];
-  public searchWord?: string;
+  public resourcesByType: Map<string, Item[]> = new Map();
+  public filter?: Filter;
   public filteredResources: Item[] = [];
+  public filteredByType: Map<string, Item[]> = new Map();
 }
 
-function computeFiltered(resources: Item[], searchWord?: string): Item[] {
+function computeFiltered(state: State) {
   let filteredResources;
-  if (searchWord == null || searchWord!.trim().length === 0) {
-    filteredResources = resources;
+  if (state.filter == null) {
+    filteredResources = state.resources;
   } else {
-    const lower: string = searchWord!.trim().toLowerCase();
-    filteredResources = resources.filter((item) =>
-      item.name != null && item.name!.toLowerCase().indexOf(lower) >= 0
-    );
+    filteredResources = state.resources.filter((item) => state.filter!.accept(item));
   }
-  return filteredResources;
+  state.filteredResources = filteredResources;
+
+  TYPES.forEach((type) => state.resourcesByType.set(type.id, []));
+  state.resources.forEach((item) => {
+    try {
+      state.resourcesByType.get(item.type!)!.push(item);
+    } catch (err) {
+      // console.log(`type ${item.type} is not supported!!!`);
+    }
+  });
+  state.filteredResources.forEach((item) => {
+    try {
+      state.filteredByType.get(item.type!)!.push(item);
+    } catch (err) {
+      // console.log(`type ${item.type} is not supported!!!`);
+    }
+  });
 }
 
 export default new Vuex.Store({
@@ -34,13 +52,21 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
-    setResources(state, resources) {
+    setResources(state, resources: Item[]) {
+      // index all resources by crn
+      const crnToId: Map<string, Item> = new Map();
+      resources.forEach((item) => crnToId.set(item.crn!, item));
+      const lookup: ItemLookup = {
+        findByCrn: (crn: string) => crnToId.get(crn),
+      };
+      resources.forEach((item) => item.resolveDependencies(lookup));
+      resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
       state.resources = resources;
-      state.filteredResources = computeFiltered(resources, state.searchWord);
+      computeFiltered(state);
     },
     setSearchWord(state, searchWord) {
-      state.searchWord = searchWord;
-      state.filteredResources = computeFiltered(state.resources, state.searchWord);
+      state.filter = new TextFilter(searchWord);
+      computeFiltered(state);
     },
   },
   actions: {

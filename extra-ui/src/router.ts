@@ -23,7 +23,7 @@ export default new Router({
     },
     {
       path: '*',
-      redirect: '/list'
+      redirect: '/list',
     },
   ],
 });

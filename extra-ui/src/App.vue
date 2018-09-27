@@ -1,6 +1,5 @@
 <template>
-<div id="app">
-  <v-app id="app">
+  <v-app>
     <v-navigation-drawer
       :clipped="false"
       :mini-variant="true"
@@ -54,18 +53,14 @@
         class="hidden-sm-and-down search"
         autofocus
         v-model="searchWord"
-        v-on:keypress.enter="search($event.target.value)"
       ></v-text-field>
       <v-btn color="info" v-on:click="refresh()">
         Refresh
       </v-btn>
-      <!-- <v-progress-linear slot="extension" :indeterminate="true" class="ma-0">Progress?</v-progress-linear> -->
     </v-toolbar>
-    <v-content>
+    <v-content class="app-content">
       <v-container fluid fill-height>
-        <v-layout column>
-          <router-view/>
-        </v-layout>
+        <router-view/>
       </v-container>
     </v-content>
     <v-footer
@@ -85,28 +80,21 @@
       </v-layout>
     </v-footer>
   </v-app>
-</div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Avatar from "@/components/Avatar.vue";
-import { setTimeout } from "timers";
+import { Component, Vue } from 'vue-property-decorator';
+import Avatar from '@/components/Avatar.vue';
 
 @Component({
   components: {
-    Avatar
-  }
+    Avatar,
+  },
 })
 export default class App extends Vue {
 
-  public search(value: string) {
-    console.log("searching for", value);
-    this.$store.dispatch("search", value);
-  }
-
   public refresh() {
-    this.$store.dispatch("refresh");
+    this.$store.dispatch('refresh');
   }
 
   protected mounted() {
@@ -124,12 +112,8 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="scss">
-body {
-}
-</style>
-
 <style lang="scss" scoped>
-#app {
+.app-content {
+  height: 100%;
 }
 </style>

@@ -1,3 +1,6 @@
+import ItemDoc from '@/models/ItemDoc';
+import ItemLookup from '@/models/ItemLookup';
+
 export default class Item {
 
   public crn?: string;
@@ -7,9 +10,15 @@ export default class Item {
   public family?: string;
   public type?: string;
   public creation_date?: string;
+  public doc?: ItemDoc;
 
-  url(): string | null {
+  public parent?: Item;
+
+  public url(): string | null {
     return null;
   }
 
+  public resolveDependencies(lookup: ItemLookup) {
+    //
+  }
 }
