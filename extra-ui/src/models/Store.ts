@@ -8,7 +8,7 @@ import ItemLookup from '@/models/ItemLookup';
 import { TextFilter } from '@/models/filters/TextFilter';
 import AndFilter from '@/models/filters/AndFilter';
 
-const api = new Api('');
+const api = new Api('http://0.0.0.0:32772');
 
 Vue.use(Vuex);
 
