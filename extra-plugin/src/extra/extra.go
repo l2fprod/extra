@@ -3,7 +3,6 @@ package main
 import (
 	"extra/routes"
 	"fmt"
-	"log"
 	"net"
 	"net/http"
 	"os"
@@ -21,7 +20,11 @@ func main() {
 }
 
 func (pluginDemo *ExtraPlugin) Run(context plugin.PluginContext, args []string) {
-	log.Println("hello extra")
+	if !context.HasTargetedAccount() {
+		fmt.Println("You need to be logged in to use the plugin")
+		os.Exit(1)
+		return
+	}
 
 	r := mux.NewRouter()
 	r.Use(mux.CORSMethodMiddleware(r))
@@ -44,7 +47,7 @@ func (pluginDemo *ExtraPlugin) Run(context plugin.PluginContext, args []string) 
 		panic(err)
 	}
 
-	log.Println(fmt.Sprintf("Listening at http://localhost:%d", listener.Addr().(*net.TCPAddr).Port))
+	fmt.Println(fmt.Sprintf("Listening at http://localhost:%d", listener.Addr().(*net.TCPAddr).Port))
 	panic(http.Serve(listener, nil))
 }
 
