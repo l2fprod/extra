@@ -6,9 +6,11 @@ import App from './App.vue';
 import router from './router';
 import './assets/css/style.css';
 import store from './models/Store';
+import { mixin } from './mixins/Helper';
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
+Vue.mixin(mixin);
 
 new Vue({
   router,
