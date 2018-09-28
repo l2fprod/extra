@@ -136,6 +136,10 @@ export default class Faceted extends Vue {
     this.$store.dispatch('filter', filter);
   }
 
+  protected mounted() {
+    this.updateFilter();
+  }
+
 }
 </script>
 
