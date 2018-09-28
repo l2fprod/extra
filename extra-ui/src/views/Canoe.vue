@@ -13,6 +13,7 @@
     :items="$store.state.filteredResources"
     hide-actions
     class="elevation-1 all-resources"
+        no-data-text="No data available. Use the Refresh button or extend your search."
   >
     <template slot="items" slot-scope="props">
       <td>
