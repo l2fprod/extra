@@ -23,4 +23,13 @@ export default class Item {
     return (this.name || '');
   }
 
+  public parents(): Item[] {
+    const result: Item[] = [];
+    let current: Item | undefined = this;
+    while (current != null && current!.parent != null) {
+      result.push(current!.parent!);
+      current = current!.parent;
+    }
+    return result.reverse();
+  }
 }
