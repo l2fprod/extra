@@ -20,7 +20,7 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">My Console</span>
+        <span class="hidden-sm-and-down">My Dashboard</span>
       </v-toolbar-title>
       <v-text-field
         flat
