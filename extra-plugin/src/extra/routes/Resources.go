@@ -2,7 +2,7 @@ package routes
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,29 +12,36 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type Resources struct {
+type resources struct {
 	context plugin.PluginContext
 	router  *mux.Router
 	client  *rest.Client
 }
 
 func RegisterResources(context plugin.PluginContext, router *mux.Router) {
-	log.Println("Resources API", context.PluginDirectory())
-	os.MkdirAll(context.PluginDirectory()+"/db", 0755)
+	// log.Println("Resources API", context.PluginDirectory())
 
-	resources := Resources{context: context, router: router, client: rest.NewClient()}
-	router.PathPrefix("/db").Handler(http.FileServer(http.Dir(context.PluginDirectory())))
+	resources := resources{context: context, router: router, client: rest.NewClient()}
+	os.MkdirAll(resources.dbDir(), 0755)
+	router.PathPrefix("/db").Handler(http.StripPrefix("/db", http.FileServer(http.Dir(resources.dbDir()))))
 	router.HandleFunc("/api/resources/refresh", resources.refresh)
 }
 
-func (resources *Resources) refresh(w http.ResponseWriter, r *http.Request) {
+func (resources *resources) dbDir() string {
+	return resources.context.PluginDirectory() + "/db/" + resources.context.CurrentAccount().GUID
+}
+
+func (resources *resources) refresh(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Refreshing resources for", resources.context.CurrentAccount().Name)
 	resources.context.RefreshIAMToken()
 
 	items, err := resources.search0("*")
 	if err != nil {
+		fmt.Println(err)
 		json.NewEncoder(w).Encode(err)
 	} else {
-		jsonFile, _ := os.Create(resources.context.PluginDirectory() + "/db/all.json")
+		fmt.Println("Refresh complete")
+		jsonFile, _ := os.Create(resources.dbDir() + "/all.json")
 		jsonData, _ := json.MarshalIndent(items, "", " ")
 		jsonFile.Write(jsonData)
 		jsonFile.Close()
@@ -44,7 +51,7 @@ func (resources *Resources) refresh(w http.ResponseWriter, r *http.Request) {
 
 type item interface{}
 
-func (resources *Resources) search0(query string) ([]item, error) {
+func (resources *resources) search0(query string) ([]item, error) {
 
 	type searchRequest struct {
 		Query string `json:"query"`
@@ -70,18 +77,18 @@ func (resources *Resources) search0(query string) ([]item, error) {
 			Query("limit", strconv.Itoa(pageLimit)).
 			Set("Authorization", resources.context.IAMToken())
 
-		if resp, err := resources.client.Do(req, &searchResponse, nil); err != nil {
-			log.Println(err)
+		if _, err := resources.client.Do(req, &searchResponse, nil); err != nil {
+			fmt.Println(err)
 			return []item{}, err
 		} else {
-			log.Println(resp)
+			// log.Println(resp)
 		}
 
 		items := searchResponse.Items
 		hasNext := searchResponse.MoreData
 
 		allItems = append(allItems, items...)
-		log.Printf("Found %d items so far\n", len(allItems))
+		fmt.Printf("  Found %d items so far\n", len(allItems))
 
 		if len(items) == 0 || !hasNext {
 			break
