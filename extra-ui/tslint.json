@@ -18,6 +18,7 @@
     "object-literal-key-quotes": false,
     "no-console": false,
     "class-name": false,
-    "variable-name": false
+    "variable-name": false,
+    "max-classes-per-file": false
   }
 }

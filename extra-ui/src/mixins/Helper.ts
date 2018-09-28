@@ -7,6 +7,6 @@ export const mixin = {
     },
     humanDate: (date: string) => {
       return format(date, 'PPPPpppp');
-    }
-  }
+    },
+  },
 };

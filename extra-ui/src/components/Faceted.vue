@@ -117,7 +117,7 @@ export default class Faceted extends Vue {
     this.selectedGroups = [];
     this.selectedTypes = [];
     this.selectedRegions = [];
-    this.selectedOrgs =[];
+    this.selectedOrgs = [];
     this.updateFilter();
   }
 

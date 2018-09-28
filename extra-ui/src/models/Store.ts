@@ -106,7 +106,7 @@ export default new Vuex.Store({
           new TypeFilter('resource-group'),
         ]),
       );
-      state.resources = resources.filter(item => uiFilter.accept(item));      
+      state.resources = resources.filter((item) => uiFilter.accept(item));
       state.resourcesByType = resourcesByType;
 
       // update the filtered properties
@@ -153,7 +153,7 @@ export default new Vuex.Store({
       try {
         const result = (await api.get()).data;
         const items = result.map((item: any) => createItem(item));
-       context.commit('setResources', items);
+        context.commit('setResources', items);
       } finally {
         await context.dispatch('loading', false);
       }
