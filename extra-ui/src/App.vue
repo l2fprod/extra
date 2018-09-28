@@ -15,11 +15,9 @@
       dark
       app
       fixed
-      extended
-      extension-height="7"
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+      <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
         <span class="hidden-sm-and-down">My Dashboard</span>
       </v-toolbar-title>
       <v-text-field
@@ -36,6 +34,9 @@
         Refresh
       </v-btn>
       <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
+      <a href="https://github.com/l2fprod/extra">
+        <v-icon>fab fa-github</v-icon>
+      </a>
     </v-toolbar>
     <v-content class="app-content">
       <v-container column fluid fill-height>
@@ -113,6 +114,12 @@ export default class App extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.v-input__control {
+  min-height: 36px !important;
+}
+</style>
 
 <style lang="scss" scoped>
 .app-content {
