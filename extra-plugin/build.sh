@@ -1,5 +1,8 @@
 #!/bin/bash
 export GOPATH=$PWD
+
+echo "Synchronizing dependencies"
+go get -u github.com/gobuffalo/packr/...
 cd src/extra
 govendor sync
 

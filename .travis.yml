@@ -3,5 +3,6 @@ language: go
 go:
   - "1.11"
 
-script: ./build.sh
+install: true
 
+script: ./build.sh
