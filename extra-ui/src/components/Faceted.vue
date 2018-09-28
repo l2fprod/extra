@@ -113,6 +113,14 @@ export default class Faceted extends Vue {
     return this.$store.getters.filteredResources(new TypeFilter(type.id)).length;
   }
 
+  public resetFilter() {
+    this.selectedGroups = [];
+    this.selectedTypes = [];
+    this.selectedRegions = [];
+    this.selectedOrgs =[];
+    this.updateFilter();
+  }
+
   public updateFilter() {
     const groupFilters = this.selectedGroups.map((group) => new ResourceGroupFilter(group));
     const typesFilters = this.selectedTypes.map((type) => new TypeFilter(type));
@@ -124,14 +132,6 @@ export default class Faceted extends Vue {
       new OrFilter(typesFilters),
       new OrFilter(regionsFilters),
       new OrFilter(organizationsFilters),
-      new NotFilter(
-        new OrFilter([
-          new TypeFilter('cf-service-binding'),
-          new TypeFilter('resource-alias'),
-          new TypeFilter('resource-binding'),
-          new TypeFilter('resource-group'),
-        ]),
-      ),
     ]);
     this.$store.dispatch('filter', filter);
   }

@@ -7,7 +7,7 @@
       fixed
       app
     >
-      <Faceted />
+      <Faceted ref="faceted" />
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -38,8 +38,20 @@
       <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
     </v-toolbar>
     <v-content class="app-content">
-      <v-container fluid fill-height>
+      <v-container column fluid fill-height>
+        <v-layout column fill-height>
+        <div>
+          <span class="font-weight-bold">{{ $store.state.filteredResources.length }}</span>
+          of
+          <v-tooltip bottom>
+            <span slot="activator" class="reset-filter" @click="resetFilter">
+              {{ $store.state.resources.length }} resources
+            </span>
+            <span>Clear search and filters</span>
+          </v-tooltip>
+        </div>
         <router-view />
+        </v-layout>
       </v-container>
     </v-content>
     <v-footer
@@ -82,6 +94,11 @@ export default class App extends Vue {
     this.$store.dispatch('refresh');
   }
 
+  public resetFilter() {
+    this.searchWord = '';
+    (this.$refs.faceted as Faceted).resetFilter();
+  }
+
   protected mounted() {
     this.$store.dispatch('get');
     this.$store.dispatch('login');
@@ -100,5 +117,9 @@ export default class App extends Vue {
 <style lang="scss" scoped>
 .app-content {
   height: 100%;
+}
+.reset-filter {
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

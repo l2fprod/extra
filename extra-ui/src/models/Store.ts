@@ -7,6 +7,9 @@ import Item from '@/models/Item';
 import ItemLookup from '@/models/ItemLookup';
 import { TextFilter } from '@/models/filters/TextFilter';
 import AndFilter from '@/models/filters/AndFilter';
+import NotFilter from '@/models/filters/NotFilter';
+import OrFilter from '@/models/filters/OrFilter';
+import TypeFilter from '@/models/filters/TypeFilter';
 
 const api = new Api('');
 
@@ -68,7 +71,7 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
-    setResources(state, resources: Item[]) {
+    async setResources(state, resources: Item[]) {
       // index all resources by crn
       const crnToId: Map<string, Item> = new Map();
       resources.forEach((item) => crnToId.set(item.crn!, item));
@@ -93,8 +96,18 @@ export default new Vuex.Store({
         findByCrn: (crn: string) => crnToId.get(crn),
       };
       resources.forEach((item) => item.resolveDependencies(lookup));
+
+      // keep only the resources we use in the UI
+      const uiFilter = new NotFilter(
+        new OrFilter([
+          new TypeFilter('cf-service-binding'),
+          new TypeFilter('resource-alias'),
+          new TypeFilter('resource-binding'),
+          new TypeFilter('resource-group'),
+        ]),
+      );
+      state.resources = resources.filter(item => uiFilter.accept(item));      
       state.resourcesByType = resourcesByType;
-      state.resources = resources;
 
       // update the filtered properties
       computeFiltered(state);
@@ -108,7 +121,6 @@ export default new Vuex.Store({
       computeFiltered(state);
     },
     setLoading(state: State, loading: boolean) {
-      console.log('setting loading to', loading);
       state.loading = loading;
     },
   },
@@ -120,7 +132,6 @@ export default new Vuex.Store({
       context.commit('setUser', (await api.login()).data);
     },
     search(context, query: string) {
-      console.log('set search to', query);
       context.commit('setSearchWord', query);
     },
     filter(context, filter: Filter) {
@@ -133,16 +144,19 @@ export default new Vuex.Store({
         const result = (await api.get()).data;
         const items = result.map((item: any) => createItem(item));
         await context.commit('setResources', items);
-        console.log(items);
       } finally {
         await context.dispatch('loading', false);
       }
     },
     async get(context) {
-      const result = (await api.get()).data;
-      const items = result.map((item: any) => createItem(item));
-      context.commit('setResources', items);
-      console.log(items);
+      await context.dispatch('loading', true);
+      try {
+        const result = (await api.get()).data;
+        const items = result.map((item: any) => createItem(item));
+       context.commit('setResources', items);
+      } finally {
+        await context.dispatch('loading', false);
+      }
     },
   },
 });
