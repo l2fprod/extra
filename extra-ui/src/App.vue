@@ -1,11 +1,13 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <v-navigation-drawer
-      :clipped="false"
-      :mini-variant="true"
+      v-model="drawer"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      fixed
       app
     >
-      <v-toolbar flat class="transparent">
+      <Faceted />
+      <!-- <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -31,9 +33,10 @@
       </v-list-tile>
 
 
-    </v-list>
+    </v-list> -->
     </v-navigation-drawer>
     <v-toolbar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
       color="blue darken-3"
       dark
       app
@@ -41,6 +44,7 @@
       extended
       extension-height="7"
     >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <span class="hidden-sm-and-down">My Console</span>
       </v-toolbar-title>
@@ -85,13 +89,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Avatar from '@/components/Avatar.vue';
+import Faceted from '@/components/Faceted.vue';
 
 @Component({
   components: {
     Avatar,
+    Faceted,
   },
 })
 export default class App extends Vue {
+
+  private drawer: boolean = true;
 
   public refresh() {
     this.$store.dispatch('refresh');

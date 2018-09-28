@@ -6,6 +6,7 @@ import Filter from '@/models/filters/Filter';
 import Item from '@/models/Item';
 import ItemLookup from '@/models/ItemLookup';
 import { TextFilter } from '@/models/filters/TextFilter';
+import AndFilter from '@/models/filters/AndFilter';
 
 const api = new Api('http://0.0.0.0:32772');
 
@@ -15,18 +16,16 @@ export class State {
   public user: any;
   public resources: Item[] = [];
   public resourcesByType: Map<string, Item[]> = new Map();
-  public filter?: Filter;
+  public searchWord: string = '';
+  public searchFilter: Filter = new AndFilter([]);
   public filteredResources: Item[] = [];
   public filteredByType: Map<string, Item[]> = new Map();
 }
 
 function computeFiltered(state: State) {
-  let filteredResources;
-  if (state.filter == null) {
-    filteredResources = state.resources;
-  } else {
-    filteredResources = state.resources.filter((item) => state.filter!.accept(item));
-  }
+
+  const filter = new AndFilter([ new TextFilter(state.searchWord), state.searchFilter ]);
+  const filteredResources = state.resources.filter((item) => filter.accept(item));
   state.filteredResources = filteredResources;
 
   TYPES.forEach((type) => {
@@ -70,7 +69,11 @@ export default new Vuex.Store({
       resources.forEach((item) => item.resolveDependencies(lookup));
     },
     setSearchWord(state, searchWord) {
-      state.filter = new TextFilter(searchWord);
+      state.searchWord = searchWord;
+      computeFiltered(state);
+    },
+    setSearchFilter(state, filter) {
+      state.searchFilter = filter;
       computeFiltered(state);
     },
   },
@@ -78,9 +81,12 @@ export default new Vuex.Store({
     async login(context) {
       context.commit('setUser', (await api.login()).data);
     },
-    async search(context, query: string) {
+    search(context, query: string) {
       console.log('set search to', query);
       context.commit('setSearchWord', query);
+    },
+    filter(context, filter: Filter) {
+      context.commit('setSearchFilter', filter);
     },
     async refresh(context) {
       await api.refresh();

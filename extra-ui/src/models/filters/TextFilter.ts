@@ -10,6 +10,10 @@ export class TextFilter implements Filter {
   }
 
   public accept(item: Item): boolean {
+    if (this.text.length === 0) {
+      return true;
+    }
+
     return item.name != null && item.name!.toLowerCase().indexOf(this.text) >= 0;
   }
 }
