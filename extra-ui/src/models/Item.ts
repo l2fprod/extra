@@ -19,7 +19,7 @@ export default class Item {
     //
   }
 
-  public toText():string {
+  public toText(): string {
     return (this.name || '');
   }
 
