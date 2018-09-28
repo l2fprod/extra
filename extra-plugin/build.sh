@@ -1,8 +1,17 @@
 #!/bin/bash
 export GOPATH=$PWD
+export PATH=$GOPATH/bin:$PATH
+
+if [ ! -f ./bin/packr ]; then
+  echo "Installing packr"
+  go get -u github.com/gobuffalo/packr/...
+fi
+if [ ! -f ./bin/govendor ]; then
+  echo "Installing govendor"
+  go get -u github.com/kardianos/govendor
+fi
 
 echo "Synchronizing dependencies"
-go get -u github.com/gobuffalo/packr/...
 cd src/extra
 govendor sync
 
@@ -13,7 +22,7 @@ govendor sync
 function build {
   FILENAME=extra-$1-$2
   echo "Building ${FILENAME}"
-  GOOS=$1 GOARCH=$2 ../../bin/packr build -o build/$FILENAME
+  GOOS=$1 GOARCH=$2 packr build -o build/$FILENAME
 #  GOOS=$1 GOARCH=$2 go build -o build/extra-$1-$2
 }
 
