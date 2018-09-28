@@ -8,11 +8,13 @@ import ItemLookup from '@/models/ItemLookup';
 import { TextFilter } from '@/models/filters/TextFilter';
 import AndFilter from '@/models/filters/AndFilter';
 
-const api = new Api('http://0.0.0.0:32772');
+const api = new Api('');
 
 Vue.use(Vuex);
 
 export class State {
+  public loading: boolean = false;
+
   public user: any;
   public resources: Item[] = [];
   public resourcesByType: Map<string, Item[]> = new Map();
@@ -105,8 +107,15 @@ export default new Vuex.Store({
       state.searchFilter = filter;
       computeFiltered(state);
     },
+    setLoading(state: State, loading: boolean) {
+      console.log('setting loading to', loading);
+      state.loading = loading;
+    },
   },
   actions: {
+    loading(context, loading: boolean) {
+      context.commit('setLoading', loading);
+    },
     async login(context) {
       context.commit('setUser', (await api.login()).data);
     },
@@ -118,11 +127,16 @@ export default new Vuex.Store({
       context.commit('setSearchFilter', filter);
     },
     async refresh(context) {
-      await api.refresh();
-      const result = (await api.get()).data;
-      const items = result.map((item: any) => createItem(item));
-      context.commit('setResources', items);
-      console.log(items);
+      await context.dispatch('loading', true);
+      try {
+        await api.refresh();
+        const result = (await api.get()).data;
+        const items = result.map((item: any) => createItem(item));
+        await context.commit('setResources', items);
+        console.log(items);
+      } finally {
+        await context.dispatch('loading', false);
+      }
     },
     async get(context) {
       const result = (await api.get()).data;

@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+    <Loading :loading="$store.state.loading" />
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -7,33 +8,6 @@
       app
     >
       <Faceted />
-      <!-- <v-toolbar flat class="transparent">
-        <v-list class="pa-0">
-          <v-list-tile avatar>
-            <v-list-tile-avatar>
-              <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/>
-            </v-list-tile-avatar>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
-
-          <v-list class="pt-0" dense>
-      <v-divider></v-divider>
-
-            <v-list-tile to="/list">
-        <v-list-tile-action>
-          <v-icon>view_list</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-
-      <v-list-tile to="/columns">
-        <v-list-tile-action>
-          <v-icon>view_column</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-
-
-    </v-list> -->
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -61,6 +35,7 @@
       <v-btn color="info" v-on:click="refresh()">
         Refresh
       </v-btn>
+      <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
     </v-toolbar>
     <v-content class="app-content">
       <v-container fluid fill-height>
@@ -90,11 +65,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Avatar from '@/components/Avatar.vue';
 import Faceted from '@/components/Faceted.vue';
+import Loading from '@/components/Loading.vue';
 
 @Component({
   components: {
     Avatar,
     Faceted,
+    Loading,
   },
 })
 export default class App extends Vue {

@@ -1,5 +1,9 @@
 <template>
-  <img :src="url" />
+  <v-avatar
+      color="grey lighten-4"
+    >
+    <img :src="url" />
+  </v-avatar>
 </template>
 
 <script lang="ts">
