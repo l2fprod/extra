@@ -9,7 +9,8 @@ export default class ResourceInstance extends Item {
   public resourceGroup?: ResourceGroup;
 
   public resolveDependencies(lookup: ItemLookup) {
-    this.dashboard_url = `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
+    this.dashboard_url =
+      `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
 
     if (this.doc && this.doc.resource_group_crn) {
       this.resourceGroup = lookup.findByCrn(this.doc.resource_group_crn);

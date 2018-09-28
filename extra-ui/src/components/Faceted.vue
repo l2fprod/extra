@@ -2,48 +2,64 @@
   <div class="filters" :style="cssProps">
     <v-expansion-panel expand>
       <v-expansion-panel-content>
-        <div slot="header"><span class="filter-title">Resource Group</span></div>
+        <div slot="header">
+          <span class="filter-title" v-bind:class="{'has-filter-selected': selectedGroups.length > 0}">Resource Group</span>
+        </div>
         <v-list dense>
-          <v-list-tile v-for="group in $store.state.resourcesByType.get('resource-group')" v-bind:key="group.id">
+          <v-list-tile v-for="group in $store.getters.resourcesByType('resource-group')" v-bind:key="group.crn">
             <v-list-tile-action>
-              <v-checkbox v-model="selectedGroups" :value="group" @change="updateFilter">
-                <span class="filter-item" slot="label">{{group.name}}</span>
+              <v-checkbox v-model="selectedGroups" :value="group.crn" @change="updateFilter">
+                <span class="filter-item" slot="label">{{group.name}}
+                  <span class="filter-count font-weight-thin"> ({{ countInGroup(group) }})</span>
+                </span>
               </v-checkbox>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
-        <div slot="header"><span class="filter-title">Cloud Foundry</span></div>
+        <div slot="header">
+          <span class="filter-title" v-bind:class="{'has-filter-selected': selectedOrgs.length > 0}">Cloud Foundry</span>
+        </div>
         <v-list dense>
-          <v-list-tile v-for="organization in organizations" v-bind:key="organization">
+          <v-list-tile v-for="organization in $store.getters.organizations" v-bind:key="organization">
             <v-list-tile-action>
               <v-checkbox v-model="selectedOrgs" :value="organization" @change="updateFilter">
-                <span class="filter-item" slot="label">{{organization}}</span>
+                <span class="filter-item" slot="label">{{organization}}
+                  <span class="filter-count font-weight-thin"> ({{ countInOrganization(organization) }})</span>
+                </span>
               </v-checkbox>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
-        <div slot="header"><span class="filter-title">Location</span></div>
+        <div slot="header">
+          <span class="filter-title" v-bind:class="{'has-filter-selected': selectedRegions.length > 0}">Location</span>
+        </div>
         <v-list dense>
-          <v-list-tile v-for="region in regions" v-bind:key="region">
+          <v-list-tile v-for="region in $store.getters.regions" v-bind:key="region">
             <v-list-tile-action>
               <v-checkbox v-model="selectedRegions" :value="region" @change="updateFilter">
-                <span class="filter-item" slot="label">{{region}}</span>
+                <span class="filter-item" slot="label">{{region}}
+                  <span class="filter-count font-weight-thin"> ({{ countInRegion(region) }})</span>
+                </span>
               </v-checkbox>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
-        <div slot="header"><span class="filter-title">Type</span></div>
+        <div slot="header">
+          <span class="filter-title" v-bind:class="{'has-filter-selected': selectedTypes.length > 0}">Type</span>
+        </div>
         <v-list dense>
           <v-list-tile v-for="type in types" v-bind:key="type.id">
             <v-list-tile-action>
               <v-checkbox v-model="selectedTypes" :value="type.id" @change="updateFilter">
-                <span class="filter-item" slot="label">{{type.name}}</span>
+                <span class="filter-item" slot="label">{{type.name}}
+                  <span class="filter-count font-weight-thin"> ({{ countInType(type) }})</span>
+                </span>
               </v-checkbox>
             </v-list-tile-action>
           </v-list-tile>
@@ -55,7 +71,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { TYPES } from '@/models/ItemFactory';
+import { TYPES, ItemType } from '@/models/ItemFactory';
 import ResourceGroup from '@/models/ResourceGroup';
 import ResourceGroupFilter from '@/models/filters/ResourceGroupFilter';
 import TypeFilter from '@/models/filters/TypeFilter';
@@ -65,20 +81,44 @@ import AndFilter from '@/models/filters/AndFilter';
 import OrFilter from '@/models/filters/OrFilter';
 import NotFilter from '@/models/filters/NotFilter';
 import Item from '@/models/Item';
+import Filter from '@/models/filters/Filter';
 
 @Component
 export default class Faceted extends Vue {
+
+  get cssProps() {
+    return {
+      '--secondary-color': this.$vuetify.theme.secondary,
+    };
+  }
+  public selectedGroups: string[] = [];
+  public selectedTypes: string[] = [];
+  public selectedRegions: string[] = [];
+  public selectedOrgs: string[] = [];
   private types = TYPES;
-  private selectedGroups: ResourceGroup[] = [];
-  private selectedTypes: string[] = [];
-  private selectedRegions: string[] = [];
-  private selectedOrgs: string[] = [];
+
+  public countInGroup(group: ResourceGroup) {
+    return this.$store.getters.filteredResources(new ResourceGroupFilter(group.crn!)).length;
+  }
+
+  public countInOrganization(organization: string) {
+    return this.$store.getters.filteredResources(new CloudFoundryOrganizationFilter(organization)).length;
+  }
+
+  public countInRegion(region: string) {
+    return this.$store.getters.filteredResources(new RegionFilter(region)).length;
+  }
+
+  public countInType(type: ItemType) {
+    return this.$store.getters.filteredResources(new TypeFilter(type.id)).length;
+  }
 
   public updateFilter() {
     const groupFilters = this.selectedGroups.map((group) => new ResourceGroupFilter(group));
     const typesFilters = this.selectedTypes.map((type) => new TypeFilter(type));
     const regionsFilters = this.selectedRegions.map((region) => new RegionFilter(region));
-    const organizationsFilters = this.selectedOrgs.map((organization) => new CloudFoundryOrganizationFilter(organization));
+    const organizationsFilters =
+      this.selectedOrgs.map((organization) => new CloudFoundryOrganizationFilter(organization));
     const filter = new AndFilter([
       new OrFilter(groupFilters),
       new OrFilter(typesFilters),
@@ -96,23 +136,6 @@ export default class Faceted extends Vue {
     this.$store.dispatch('filter', filter);
   }
 
-  get organizations() {
-    return [...new Set(this.$store.state.resources
-      .filter((item: Item) => item.type === 'cf-organization')
-      .map((item: Item) => item.name))];
-  }
-
-  get regions() {
-    return [...new Set(this.$store.state.resources.map((item: Item) => item.region))]
-      .filter((region) => region != null && (region as string).length > 0);
-  }
-
-  get cssProps() {
-    return {
-      '--secondary-color': this.$vuetify.theme.secondary
-    };
-  }
-
 }
 </script>
 
@@ -126,7 +149,7 @@ export default class Faceted extends Vue {
   height: 100%;
 }
 
-.filter-title {
+.has-filter-selected {
   font-weight: bold;
 }
 

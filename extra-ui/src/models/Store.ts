@@ -23,34 +23,45 @@ export class State {
 }
 
 function computeFiltered(state: State) {
-
   const filter = new AndFilter([ new TextFilter(state.searchWord), state.searchFilter ]);
   const filteredResources = state.resources.filter((item) => filter.accept(item));
-  state.filteredResources = filteredResources;
 
+  const filteredByType: Map<string, Item[]> = new Map();
   TYPES.forEach((type) => {
-    state.resourcesByType.set(type.id, []);
-    state.filteredByType.set(type.id, []);
+    filteredByType.set(type.id, []);
   });
 
-  state.resources.forEach((item) => {
+  filteredResources.forEach((item) => {
     try {
-      state.resourcesByType.get(item.type!)!.push(item);
+      filteredByType.get(item.type!)!.push(item);
     } catch (err) {
       // console.log(`type ${item.type} is not supported!!!`);
     }
   });
-  state.filteredResources.forEach((item) => {
-    try {
-      state.filteredByType.get(item.type!)!.push(item);
-    } catch (err) {
-      // console.log(`type ${item.type} is not supported!!!`);
-    }
-  });
+
+  state.filteredByType = filteredByType;
+  state.filteredResources = filteredResources;
 }
 
 export default new Vuex.Store({
   state: new State(),
+  getters: {
+    filteredResources: (state: State) => (filter: Filter): Item[] => {
+      return state.filteredResources.filter((item) => filter.accept(item));
+    },
+    resourcesByType: (state: State) => (type: string): Item[] | undefined => {
+      return state.resourcesByType.get(type);
+    },
+    organizations: (state: State): Array<string | undefined> => {
+      return [...new Set(state.resources
+        .filter((item: Item) => item.type === 'cf-organization')
+        .map((item: Item) => item.name))];
+    },
+    regions: (state: State): Array<string | undefined> => {
+      return [...new Set(state.resources.map((item: Item) => item.region))]
+        .filter((region) => region != null && (region as string).length > 0);
+    },
+  },
   mutations: {
     setUser(state, user) {
       state.user = user;
@@ -60,13 +71,31 @@ export default new Vuex.Store({
       const crnToId: Map<string, Item> = new Map();
       resources.forEach((item) => crnToId.set(item.crn!, item));
       resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
-      state.resources = resources;
-      computeFiltered(state);
+
+      // index resources by their type
+      const resourcesByType: Map<string, Item[]> = new Map();
+      TYPES.forEach((type) => {
+        resourcesByType.set(type.id, []);
+      });
+      resources.forEach((item) => {
+        try {
+          resourcesByType.get(item.type!)!.push(item);
+        } catch (err) {
+          // console.log(`type ${item.type} is not supported!!!`);
+        }
+      });
+
+      // resolve dependencies
       const lookup: ItemLookup = {
-        getByType: (type: string) => state.resourcesByType.get(type)!,
+        getByType: (type: string) => resourcesByType.get(type)!,
         findByCrn: (crn: string) => crnToId.get(crn),
       };
       resources.forEach((item) => item.resolveDependencies(lookup));
+      state.resourcesByType = resourcesByType;
+      state.resources = resources;
+
+      // update the filtered properties
+      computeFiltered(state);
     },
     setSearchWord(state, searchWord) {
       state.searchWord = searchWord;
