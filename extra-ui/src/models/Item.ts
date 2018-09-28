@@ -18,4 +18,9 @@ export default class Item {
   public resolveDependencies(lookup: ItemLookup) {
     //
   }
+
+  public toText():string {
+    return (this.name || '');
+  }
+
 }

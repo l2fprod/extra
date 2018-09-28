@@ -17,4 +17,8 @@ export default class ResourceInstance extends Item {
       this.parent = this.resourceGroup;
     }
   }
+
+  public toText(): string {
+    return super.toText() + (this.service_name || '');
+  }
 }

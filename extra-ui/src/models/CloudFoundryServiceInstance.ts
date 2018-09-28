@@ -13,4 +13,9 @@ export default class CloudFoundryServiceInstance extends Item {
     this.parent = lookup.getByType('cf-organization')
       .find((item: Item) => this.organization_guid! === item.resource_id);
   }
+
+  public toText(): string {
+    return super.toText() + (this.service_name || '');
+  }
+
 }

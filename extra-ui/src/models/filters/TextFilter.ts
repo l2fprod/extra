@@ -14,6 +14,7 @@ export class TextFilter implements Filter {
       return true;
     }
 
-    return item.name != null && item.name!.toLowerCase().indexOf(this.text) >= 0;
+    console.log(item.toText());
+    return item.toText().toLowerCase().indexOf(this.text) >= 0;
   }
 }
