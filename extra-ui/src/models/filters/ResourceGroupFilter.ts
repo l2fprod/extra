@@ -4,15 +4,15 @@ import ResourceGroup from '@/models/ResourceGroup';
 
 export default class ResourceGroupFilter implements Filter {
 
-  private group: ResourceGroup;
+  private crn: string;
 
-  constructor(group: ResourceGroup) {
-    this.group = group;
+  constructor(crn: string) {
+    this.crn = crn;
   }
 
   public accept(item: Item): boolean {
     if (item.parent) {
-      return this.group.crn! === item.parent!.crn;
+      return this.crn === item.parent!.crn;
     } else {
       return false;
     }
