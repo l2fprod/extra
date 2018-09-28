@@ -13,10 +13,7 @@ export default class Item {
   public doc?: ItemDoc;
 
   public parent?: Item;
-
-  public url(): string | null {
-    return null;
-  }
+  public dashboard_url?: string;
 
   public resolveDependencies(lookup: ItemLookup) {
     //

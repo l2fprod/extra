@@ -23,13 +23,14 @@ func main() {
 func (pluginDemo *ExtraPlugin) Run(context plugin.PluginContext, args []string) {
 	log.Println("hello extra")
 
-	box := packr.NewBox("./public")
-
 	r := mux.NewRouter()
-	r.Path("/").Handler(http.FileServer(box))
+	r.Use(mux.CORSMethodMiddleware(r))
 
 	routes.RegisterUser(context, r)
 	routes.RegisterResources(context, r)
+
+	box := packr.NewBox("./public")
+	r.PathPrefix("/").Handler(http.FileServer(box))
 
 	http.Handle("/", handlers.CORS()(r))
 
@@ -43,7 +44,7 @@ func (pluginDemo *ExtraPlugin) Run(context plugin.PluginContext, args []string) 
 		panic(err)
 	}
 
-	log.Println(fmt.Sprintf("extra listening at http://localhost:%d", listener.Addr().(*net.TCPAddr).Port))
+	log.Println(fmt.Sprintf("Listening at http://localhost:%d", listener.Addr().(*net.TCPAddr).Port))
 	panic(http.Serve(listener, nil))
 }
 

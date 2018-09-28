@@ -29,7 +29,11 @@ function computeFiltered(state: State) {
   }
   state.filteredResources = filteredResources;
 
-  TYPES.forEach((type) => state.resourcesByType.set(type.id, []));
+  TYPES.forEach((type) => {
+    state.resourcesByType.set(type.id, []);
+    state.filteredByType.set(type.id, []);
+  });
+
   state.resources.forEach((item) => {
     try {
       state.resourcesByType.get(item.type!)!.push(item);
@@ -56,13 +60,14 @@ export default new Vuex.Store({
       // index all resources by crn
       const crnToId: Map<string, Item> = new Map();
       resources.forEach((item) => crnToId.set(item.crn!, item));
-      const lookup: ItemLookup = {
-        findByCrn: (crn: string) => crnToId.get(crn),
-      };
-      resources.forEach((item) => item.resolveDependencies(lookup));
       resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
       state.resources = resources;
       computeFiltered(state);
+      const lookup: ItemLookup = {
+        getByType: (type: string) => state.resourcesByType.get(type)!,
+        findByCrn: (crn: string) => crnToId.get(crn),
+      };
+      resources.forEach((item) => item.resolveDependencies(lookup));
     },
     setSearchWord(state, searchWord) {
       state.filter = new TextFilter(searchWord);
