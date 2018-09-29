@@ -66,7 +66,6 @@ export default class Canoe extends Vue {
   overflow-x: auto;
   overflow-y: auto;
   flex: 1;
-  background-color: $table-background;
 }
 
 </style>
