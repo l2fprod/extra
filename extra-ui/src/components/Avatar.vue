@@ -1,6 +1,7 @@
 <template>
   <v-avatar
       color="grey lighten-4"
+      size="36"
     >
     <img :src="url" />
   </v-avatar>

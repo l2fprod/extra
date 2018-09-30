@@ -1,6 +1,6 @@
 <template>
   <v-layout row fill-height>
-    <div class="resources elevation-1">
+    <div class="resources-container">
       <v-data-table
         :headers="[
           { text: 'Name', value: 'name',  },
@@ -10,14 +10,14 @@
           { text: 'Age', value: 'creation_date', width: '150', align: 'right' }
         ]"
         :items="$store.state.filteredResources"
-        hide-actions
-        class="elevation-1 all-resources"
+        hide-actions        
+        class="elevation-10 resources"
         no-data-text="No data available. Use the Refresh button or extend your search."
       >
         <template slot="items" slot-scope="props">
           <td>
-            <a v-if="props.item.dashboard_url" :href="props.item.dashboard_url">{{ props.item.name }}</a>
-            <span v-else>{{ props.item.name }}</span>
+            <a class="secondary--text" v-if="props.item.dashboard_url" :href="props.item.dashboard_url">{{ props.item.name }}</a>
+            <span class="secondary--text" v-else>{{ props.item.name }}</span>
           </td>
           <td class="text-xs-right">{{ props.item.type }}</td>
           <td class="text-xs-right">{{ props.item.region }}</td>
@@ -61,11 +61,15 @@ export default class Canoe extends Vue {
   font-weight: bold;
 }
 
-.resources {
+.resources-container {
   margin-top: 10px;
+  flex: 1;
+}
+
+.resources {
+  max-height: 100%;
   overflow-x: auto;
   overflow-y: auto;
-  flex: 1;
 }
 
 </style>

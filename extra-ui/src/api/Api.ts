@@ -12,10 +12,6 @@ export default class Api {
     return axios.get(`${this.endpoint}/api/user`);
   }
 
-  public search(query: string) {
-    return axios.get(`${this.endpoint}/api/resources/search?query=${encodeURIComponent(query)}`);
-  }
-
   public refresh() {
     return axios.get(`${this.endpoint}/api/resources/refresh`);
   }

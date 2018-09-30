@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" :dark="themeDark">
     <Loading :loading="$store.state.loading" />
     <v-navigation-drawer
       v-model="drawer"
@@ -11,17 +11,17 @@
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
-      color="blue darken-3"
-      dark
       app
       fixed
+      color="primary"
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon class="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">My Dashboard</span>
+        <span class="hidden-sm-and-down white--text">My Dashboard</span>
       </v-toolbar-title>
       <v-text-field
         flat
+        dark
         solo-inverted
         hide-details
         prepend-inner-icon="search"
@@ -30,13 +30,21 @@
         autofocus
         v-model="searchWord"
       ></v-text-field>
-      <v-btn color="info" v-on:click="refresh()">
+      <v-spacer />
+      <v-btn color="error" v-on:click="refresh()">
         Refresh
       </v-btn>
       <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
-      <a href="https://github.com/l2fprod/extra">
+      <v-btn large icon href="https://github.com/l2fprod/extra">
         <v-icon>fab fa-github</v-icon>
-      </a>
+      </v-btn>
+      <v-btn large icon dark href="https://twitter.com/l2fprod">
+        <v-icon>fab fa-twitter</v-icon>
+      </v-btn>
+      <!-- <v-btn large icon @click="toggleTheme">
+        <v-icon v-show="themeDark==false">fas fa-lightbulb</v-icon>
+        <v-icon v-show="themeDark==true">far fa-lightbulb</v-icon>
+      </v-btn> -->
     </v-toolbar>
     <v-content class="app-content">
       <v-container column fluid fill-height>
@@ -56,7 +64,6 @@
       </v-container>
     </v-content>
     <v-footer
-      :inset="true"
       height="auto"
       color="primary lighten-1"
       fixed
@@ -90,6 +97,30 @@ import Loading from '@/components/Loading.vue';
 export default class App extends Vue {
 
   private drawer: boolean = true;
+  private themeDark: boolean = false;
+
+  public toggleTheme() {
+    this.themeDark = !this.themeDark;
+    if (this.themeDark) {
+      this.$vuetify.theme.primary = "#78909C";
+      this.$vuetify.theme.secondary = "#455A64";
+      //   accent: "#607D8B",
+      //   error: "#f44336",
+      //   warning: "#ffeb3b",
+      //   info: "#2196f3",
+      //   success: "#4caf50"
+      // };
+    } else {
+      this.$vuetify.theme.primary ='#197596';
+      this.$vuetify.theme.secondary = '#FFFFFF';
+      //   accent: '#42A5F5',
+      //   error: '#f44336',
+      //   warning: '#ffeb3b',
+      //   info: '#2196f3',
+      //   success: '#4caf50',
+      // };
+    }
+  }
 
   public refresh() {
     this.$store.dispatch('refresh');
