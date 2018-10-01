@@ -14,9 +14,15 @@ export default class Item {
 
   public parent?: Item;
   public dashboard_url?: string;
+  public pathToRoot: string = '';
 
   public resolveDependencies(lookup: ItemLookup) {
     //
+  }
+
+  //
+  public resolved() {
+    this.pathToRoot = this.parents().map((item): string => item.name!).join(' / ');
   }
 
   public toText(): string {

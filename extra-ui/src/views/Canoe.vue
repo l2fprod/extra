@@ -6,11 +6,11 @@
           { text: 'Name', value: 'name',  },
           { text: 'Type', value: 'type', width: '200' },
           { text: 'Region', value: 'region', width: '150', align: 'center' },
-          { text: 'Group', value: 'parent', width: '400', align: 'center',  },
+          { text: 'Group', value: 'pathToRoot', width: '400', align: 'center',  },
           { text: 'Age', value: 'creation_date', width: '150', align: 'right' }
         ]"
         :items="$store.state.filteredResources"
-        hide-actions        
+        hide-actions
         class="elevation-10 resources"
         no-data-text="No data available. Use the Refresh button or extend your search."
       >

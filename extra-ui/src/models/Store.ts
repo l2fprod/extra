@@ -77,25 +77,29 @@ export default new Vuex.Store({
       resources.forEach((item) => crnToId.set(item.crn!, item));
       resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
 
-      // index resources by their type
+      // index resources
       const resourcesByType: Map<string, Item[]> = new Map();
       TYPES.forEach((type) => {
         resourcesByType.set(type.id, []);
       });
+      const resourcesById: Map<string, Item> = new Map();
       resources.forEach((item) => {
         try {
           resourcesByType.get(item.type!)!.push(item);
         } catch (err) {
           // console.log(`type ${item.type} is not supported!!!`);
         }
+        resourcesById.set(item.resource_id!, item);
       });
 
       // resolve dependencies
       const lookup: ItemLookup = {
         getByType: (type: string) => resourcesByType.get(type)!,
         findByCrn: (crn: string) => crnToId.get(crn),
+        findByResourceId: (id: string) => resourcesById.get(id),
       };
       resources.forEach((item) => item.resolveDependencies(lookup));
+      resources.forEach((item) => item.resolved());
 
       // keep only the resources we use in the UI
       const uiFilter = new NotFilter(
