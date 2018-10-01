@@ -102,8 +102,8 @@ export default class App extends Vue {
   public toggleTheme() {
     this.themeDark = !this.themeDark;
     if (this.themeDark) {
-      this.$vuetify.theme.primary = "#78909C";
-      this.$vuetify.theme.secondary = "#455A64";
+      this.$vuetify.theme.primary = '#78909C';
+      this.$vuetify.theme.secondary = '#455A64';
       //   accent: "#607D8B",
       //   error: "#f44336",
       //   warning: "#ffeb3b",
@@ -111,7 +111,7 @@ export default class App extends Vue {
       //   success: "#4caf50"
       // };
     } else {
-      this.$vuetify.theme.primary ='#197596';
+      this.$vuetify.theme.primary = '#197596';
       this.$vuetify.theme.secondary = '#FFFFFF';
       //   accent: '#42A5F5',
       //   error: '#f44336',

@@ -13,13 +13,13 @@ Vue.mixin(mixin);
 Vue.use(Vuetify, {
   theme:
   {
-    primary: "#78909C",
-    secondary: "#455A64",
-    accent: "#607D8B",
-    error: "#f44336",
-    warning: "#ffeb3b",
-    info: "#2196f3",
-    success: "#4caf50"
+    primary: '#78909C',
+    secondary: '#455A64',
+    accent: '#607D8B',
+    error: '#f44336',
+    warning: '#ffeb3b',
+    info: '#2196f3',
+    success: '#4caf50',
   },
 });
 
