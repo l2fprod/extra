@@ -47,9 +47,9 @@
       </v-btn> -->
     </v-toolbar>
     <v-content class="app-content">
-      <v-container column fluid fill-height>
+      <v-container column fluid fill-height class="app-container">
         <v-layout column fill-height>
-        <div>
+        <div class="item-count">
           <span class="font-weight-bold">{{ $store.state.filteredResources.length }}</span>
           of
           <v-tooltip bottom>
@@ -150,6 +150,12 @@ export default class App extends Vue {
 .v-input__control {
   min-height: 36px !important;
 }
+.v-chip {
+  margin-left: 0px;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -159,5 +165,11 @@ export default class App extends Vue {
 .reset-filter {
   text-decoration: underline;
   cursor: pointer;
+}
+.app-container {
+  padding: 0px;
+}
+.item-count {
+  padding: 10px;
 }
 </style>

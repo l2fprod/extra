@@ -4,6 +4,7 @@ import ItemDoc from '@/models/ItemDoc';
 
 class Doc extends ItemDoc {
   public space_guid?: string;
+  public routes?: any[];
 }
 
 export default class CloudFoundryApplication extends Item {
