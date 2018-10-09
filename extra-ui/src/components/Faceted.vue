@@ -107,7 +107,7 @@ export default class Faceted extends Vue {
       '--secondary-color': this.$vuetify.theme.secondary,
     };
   }
-  
+
   public selectedGroups: string[] = [];
   public selectedTypes: string[] = [];
   public selectedRegions: string[] = [];
@@ -154,7 +154,7 @@ export default class Faceted extends Vue {
     const organizationsFilters =
       this.selectedOrgs.map((organization) => new CloudFoundryOrganizationFilter(organization));
     const spaceFilters: Filter[] = [];
-    Object.keys(this.selectedSpaces).forEach((orgAndSpace:string) => {
+    Object.keys(this.selectedSpaces).forEach((orgAndSpace: string) => {
       if (this.selectedSpaces[orgAndSpace]) {
         const values = orgAndSpace.split('\t');
         spaceFilters.push(new AndFilter([
