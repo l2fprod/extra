@@ -13,12 +13,12 @@ export default class CloudFoundryOrganizationFilter implements Filter {
   }
 
   public accept(item: Item): boolean {
-    if (item.parent != null && item.parent.type === 'cf-space') {
-      return this.accept(item.parent);
+    if (item.__parent != null && item.__parent.type === 'cf-space') {
+      return this.accept(item.__parent);
     }
 
-    return item.parent != null
-      && item.parent.type === 'cf-organization'
-      &&  this.organization === item.parent.name;
+    return item.__parent != null
+      && item.__parent.type === 'cf-organization'
+      &&  this.organization === item.__parent.name;
   }
 }

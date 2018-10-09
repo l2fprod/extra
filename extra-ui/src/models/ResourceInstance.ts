@@ -6,16 +6,24 @@ export default class ResourceInstance extends Item {
 
   public service_name?: string;
   public service_instance?: string;
-  public resourceGroup?: ResourceGroup;
+
+  public __resourceGroup?: ResourceGroup;
 
   public resolveDependencies(lookup: ItemLookup) {
-    this.dashboard_url =
+    super.resolveDependencies(lookup);
+
+    this.__dashboardUrl =
       `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
 
     if (this.doc && this.doc.resource_group_crn) {
-      this.resourceGroup = lookup.findByCrn(this.doc.resource_group_crn);
-      this.parent = this.resourceGroup;
+      this.__resourceGroup = lookup.findByCrn(this.doc.resource_group_crn);
+      this.__parent = this.__resourceGroup;
     }
+  }
+
+  public resolved() {
+    super.resolved();
+    this.__extendedType = this.service_name;
   }
 
   public toText(): string {

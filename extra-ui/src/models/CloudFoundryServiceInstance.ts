@@ -14,10 +14,16 @@ export default class CloudFoundryServiceInstance extends Item {
   public doc?: Doc;
 
   public resolveDependencies(lookup: ItemLookup) {
-    this.dashboard_url =
+    super.resolveDependencies(lookup);
+    this.__dashboardUrl =
       `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
-    this.parent = lookup.getByType('cf-space')
+    this.__parent = lookup.getByType('cf-space')
       .find((item: Item) => this.doc!.space_guid! === item.resource_id);
+  }
+
+  public resolved() {
+    super.resolved();
+    this.__extendedType = this.service_name;
   }
 
   public toText(): string {

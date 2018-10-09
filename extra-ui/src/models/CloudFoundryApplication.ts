@@ -4,6 +4,7 @@ import ItemDoc from '@/models/ItemDoc';
 
 class Doc extends ItemDoc {
   public space_guid?: string;
+  public detected_buildpack?: string;
   public routes?: any[];
 }
 
@@ -13,9 +14,14 @@ export default class CloudFoundryApplication extends Item {
   public doc?: Doc;
 
   public resolveDependencies(lookup: ItemLookup) {
-    this.dashboard_url = `https://console.bluemix.net/apps/${this.resource_id}?region=${this.region}`;
-
-    this.parent = lookup.getByType('cf-space')
+    super.resolveDependencies(lookup);
+    this.__dashboardUrl = `https://console.bluemix.net/apps/${this.resource_id}?region=${this.region}`;
+    this.__parent = lookup.getByType('cf-space')
       .find((item: Item) => this.doc!.space_guid! === item.resource_id);
+  }
+
+  public resolved() {
+    super.resolved();
+    this.__extendedType = this.doc!.detected_buildpack;
   }
 }
