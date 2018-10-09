@@ -5,6 +5,7 @@ import ResourceInstance from '@/models/ResourceInstance';
 
 class Doc extends ItemDoc {
   public resource_group_id?: string;
+  public status?: string;
 }
 
 export default class KubernetesCluster extends ResourceInstance {
@@ -22,4 +23,8 @@ export default class KubernetesCluster extends ResourceInstance {
     }
   }
 
+  public resolved() {
+    super.resolved();
+    this.__status = this.doc!.status;
+  }
 }

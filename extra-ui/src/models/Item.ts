@@ -16,6 +16,7 @@ export default class Item {
   public __dashboardUrl?: string;
   public __extendedType?: string;
   public __pathToRoot: string = '';
+  public __status?: string = '';
 
   public resolveDependencies(lookup: ItemLookup) {
     //

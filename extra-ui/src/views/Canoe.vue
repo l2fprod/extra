@@ -3,11 +3,12 @@
     <div class="resources-container">
       <v-data-table
         :headers="[
-          { text: 'Name', value: 'name',  },
-          { text: 'Type', value: 'type', width: '200' },
-          { text: 'Region', value: 'region', width: '150', align: 'center' },
-          { text: 'Group', value: 'pathToRoot', width: '400', align: 'center',  },
-          { text: 'Age', value: 'creation_date', width: '150', align: 'right' }
+          { text: 'Name', value: 'name' },
+          { text: 'Type', value: '__extendedType', },
+          { text: 'Region', value: 'region', align: 'center', },
+          { text: 'Group', value: '__pathToRoot', align: 'center', },
+          { text: 'Status', value: '__status', align: 'center', },
+          { text: 'Age', value: 'creation_date', align: 'right' }
         ]"
         :items="$store.state.filteredResources"
         hide-actions
@@ -16,17 +17,18 @@
       >
         <template slot="items" slot-scope="props">
           <tr @click="select(props.item)" :class="{ selected: selectedItem == props.item }">
-            <td class="text-nowrap">
-              <a class="secondary--text" v-if="props.item.dashboard_url" :href="props.item.dashboard_url">{{ props.item.name }}</a>
+            <td>
+              <a class="secondary--text" v-if="props.item.__dashboardUrl" :href="props.item.__dashboardUrl">{{ props.item.name }}</a>
               <span class="secondary--text" v-else>{{ props.item.name }}</span>
             </td>
-            <td class="text-nowrap text-xs-right">{{ props.item.type }}</td>
-            <td class="text-nowrap text-xs-right">{{ props.item.region }}</td>
+            <td class="text-xs-right">{{ props.item.__extendedType }}</td>
+            <td width="100" class="text-nowrap text-xs-right">{{ props.item.region }}</td>
             <td class="text-xs-left">
               <v-chip v-for="parent in props.item.parents()" v-bind:key="parent.resource_id"
                       disabled label outline small color="secondary"
               >{{ parent.name }}</v-chip>
             </td>
+            <td width="100" class="text-xs-center">{{ props.item.__status }}</td>
             <td class="text-nowrap text-xs-right">
               <v-tooltip top>
                 <span slot="activator">{{ relativeDate(props.item.creation_date) }}</span>

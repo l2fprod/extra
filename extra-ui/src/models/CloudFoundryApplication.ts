@@ -6,6 +6,7 @@ class Doc extends ItemDoc {
   public space_guid?: string;
   public detected_buildpack?: string;
   public routes?: any[];
+  public state?: string;
 }
 
 export default class CloudFoundryApplication extends Item {
@@ -23,5 +24,7 @@ export default class CloudFoundryApplication extends Item {
   public resolved() {
     super.resolved();
     this.__extendedType = this.doc!.detected_buildpack;
+    this.__status = this.doc!.state;
   }
+
 }
