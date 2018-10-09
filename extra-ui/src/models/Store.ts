@@ -10,6 +10,7 @@ import AndFilter from '@/models/filters/AndFilter';
 import NotFilter from '@/models/filters/NotFilter';
 import OrFilter from '@/models/filters/OrFilter';
 import TypeFilter from '@/models/filters/TypeFilter';
+import CloudFoundryOrganization from '@/models/CloudFoundryOrganization';
 
 const api = new Api('');
 
@@ -25,6 +26,51 @@ export class State {
   public searchFilter: Filter = new AndFilter([]);
   public filteredResources: Item[] = [];
   public filteredByType: Map<string, Item[]> = new Map();
+}
+
+function computeGlobal(state: State, resources: Item[]) {
+  // index all resources by crn
+  const crnToId: Map<string, Item> = new Map();
+  resources.forEach((item) => crnToId.set(item.crn!, item));
+  resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
+
+  // index resources
+  const resourcesByType: Map<string, Item[]> = new Map();
+  TYPES.forEach((type) => {
+    resourcesByType.set(type.id, []);
+  });
+  const resourcesById: Map<string, Item> = new Map();
+  resources.forEach((item) => {
+    try {
+      resourcesByType.get(item.type!)!.push(item);
+    } catch (err) {
+      // console.log(`type ${item.type} is not supported!!!`);
+    }
+    resourcesById.set(item.resource_id!, item);
+  });
+
+  // resolve dependencies
+  const lookup: ItemLookup = {
+    getByType: (type: string) => resourcesByType.get(type)!,
+    findByCrn: (crn: string) => crnToId.get(crn),
+    findByResourceId: (id: string) => resourcesById.get(id),
+  };
+  resources.forEach((item) => item.resolveDependencies(lookup));
+  resources.forEach((item) => item.resolved());
+
+  // keep only the resources we use in the UI
+  const uiFilter = new NotFilter(
+    new OrFilter([
+      new TypeFilter('cf-service-binding'),
+      new TypeFilter('resource-alias'),
+      new TypeFilter('resource-binding'),
+      new TypeFilter('resource-group'),
+      new TypeFilter('cf-space'),
+      new TypeFilter('cf-organization'),
+    ]),
+  );
+  state.resources = resources.filter((item) => uiFilter.accept(item));
+  state.resourcesByType = resourcesByType;
 }
 
 function computeFiltered(state: State) {
@@ -48,8 +94,12 @@ function computeFiltered(state: State) {
   state.filteredResources = filteredResources;
 }
 
+const initialState = new State();
+computeGlobal(initialState, []);
+computeFiltered(initialState);
+
 export default new Vuex.Store({
-  state: new State(),
+  state: initialState,
   getters: {
     filteredResources: (state: State) => (filter: Filter): Item[] => {
       return state.filteredResources.filter((item) => filter.accept(item));
@@ -58,9 +108,21 @@ export default new Vuex.Store({
       return state.resourcesByType.get(type);
     },
     organizations: (state: State): Array<string | undefined> => {
-      return [...new Set(state.resources
-        .filter((item: Item) => item.type === 'cf-organization')
+      return [...new Set(state.resourcesByType.get('cf-organization')!
         .map((item: Item) => item.name))];
+    },
+    spaces: (state: State) => (organization: string): Array<string | undefined> => {
+      console.log('getting spaces for', organization);
+      const orgs: CloudFoundryOrganization[] =
+        (state.resourcesByType.get('cf-organization')!
+          .filter((item: Item) => item.name === organization) as CloudFoundryOrganization[]);
+      console.log('found', orgs.length, ' orgs');
+      let allSpaces: string[] = [];
+      orgs.forEach((org) => {
+        allSpaces = allSpaces.concat(org.__spaces.map((space) => space.name!));
+      });
+      console.log('found', allSpaces.length, 'spaces');
+      return [...new Set(allSpaces)];
     },
     regions: (state: State): Array<string | undefined> => {
       return [...new Set(state.resources.map((item: Item) => item.region))]
@@ -72,46 +134,7 @@ export default new Vuex.Store({
       state.user = user;
     },
     async setResources(state, resources: Item[]) {
-      // index all resources by crn
-      const crnToId: Map<string, Item> = new Map();
-      resources.forEach((item) => crnToId.set(item.crn!, item));
-      resources.sort((a: Item, b: Item) => a.name!.localeCompare(b.name!));
-
-      // index resources
-      const resourcesByType: Map<string, Item[]> = new Map();
-      TYPES.forEach((type) => {
-        resourcesByType.set(type.id, []);
-      });
-      const resourcesById: Map<string, Item> = new Map();
-      resources.forEach((item) => {
-        try {
-          resourcesByType.get(item.type!)!.push(item);
-        } catch (err) {
-          // console.log(`type ${item.type} is not supported!!!`);
-        }
-        resourcesById.set(item.resource_id!, item);
-      });
-
-      // resolve dependencies
-      const lookup: ItemLookup = {
-        getByType: (type: string) => resourcesByType.get(type)!,
-        findByCrn: (crn: string) => crnToId.get(crn),
-        findByResourceId: (id: string) => resourcesById.get(id),
-      };
-      resources.forEach((item) => item.resolveDependencies(lookup));
-      resources.forEach((item) => item.resolved());
-
-      // keep only the resources we use in the UI
-      const uiFilter = new NotFilter(
-        new OrFilter([
-          new TypeFilter('cf-service-binding'),
-          new TypeFilter('resource-alias'),
-          new TypeFilter('resource-binding'),
-          new TypeFilter('resource-group'),
-        ]),
-      );
-      state.resources = resources.filter((item) => uiFilter.accept(item));
-      state.resourcesByType = resourcesByType;
+      computeGlobal(state, resources);
 
       // update the filtered properties
       computeFiltered(state);
