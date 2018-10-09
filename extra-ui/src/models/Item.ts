@@ -12,9 +12,10 @@ export default class Item {
   public creation_date?: string;
   public doc?: ItemDoc;
 
-  public parent?: Item;
-  public dashboard_url?: string;
-  public pathToRoot: string = '';
+  public __parent?: Item;
+  public __dashboardUrl?: string;
+  public __extendedType?: string;
+  public __pathToRoot: string = '';
 
   public resolveDependencies(lookup: ItemLookup) {
     //
@@ -22,19 +23,21 @@ export default class Item {
 
   //
   public resolved() {
-    this.pathToRoot = this.parents().map((item): string => item.name!).join(' / ');
+    this.__extendedType = this.type;
+    this.__pathToRoot = this.parents().map((item): string => item.name!).join(' / ');
   }
 
   public toText(): string {
-    return (this.name || '');
+    return (this.name || '')
+      + ' ' + (this.__extendedType || '');
   }
 
   public parents(): Item[] {
     const result: Item[] = [];
     let current: Item | undefined = this;
-    while (current != null && current!.parent != null) {
-      result.push(current!.parent!);
-      current = current!.parent;
+    while (current != null && current!.__parent != null) {
+      result.push(current!.__parent!);
+      current = current!.__parent;
     }
     return result.reverse();
   }
