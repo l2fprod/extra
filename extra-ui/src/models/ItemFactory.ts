@@ -9,6 +9,7 @@ import CloudFoundryOrganization from '@/models/CloudFoundryOrganization';
 import CloudFoundryServiceInstance from '@/models/CloudFoundryServiceInstance';
 import KubernetesCluster from '@/models/KubernetesCluster';
 import CloudFoundrySpace from '@/models/CloudFoundrySpace';
+import Toolchain from '@/models/Toolchain';
 
 export class ItemType {
   public id: string;
@@ -34,6 +35,7 @@ export const TYPES: ItemType[] = [
   new ItemType('cf-space', 'Cloud Foundry Space', '', () => new CloudFoundrySpace()),
   new ItemType('cf-service-binding', 'Cloud Foundry Service Binding', '', () => new CloudFoundryServiceBinding()),
   new ItemType('cf-service-instance', 'Cloud Foundry Service Instance', '', () => new CloudFoundryServiceInstance()),
+  new ItemType('toolchain', 'Toolchain', '', () => new Toolchain()),
 ];
 
 const TYPESbyId: any = {};
@@ -41,7 +43,16 @@ TYPES.forEach((type) => TYPESbyId[type.id] = type);
 
 export function createItem(item: any): Item {
   let subclass;
-  const type: ItemType = TYPESbyId[item.type];
+  let type: ItemType | null = null;
+
+  if (item.doc && item.doc.sub_type) {
+    type = TYPESbyId[item.doc.sub_type];
+  }
+
+  if (!type) {
+    type = TYPESbyId[item.type];
+  }
+
   if (type != null) {
     subclass = type.factory();
   } else {
