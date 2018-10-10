@@ -20,7 +20,7 @@
             <td>
               <v-layout row align-center>
                 <img class="resource-icon" v-if="props.item.__icon" :src="props.item.__icon" />
-                <span class="resource-icon" v-if="!props.item.__icon" />
+                <v-icon color="grey lighten-1" class="resource-icon" v-if="!props.item.__icon">widgets</v-icon>
                 <a class="secondary--text" v-if="props.item.__dashboardUrl" :href="props.item.__dashboardUrl">
                   {{ props.item.name }}
                 </a>
@@ -47,6 +47,8 @@
     </div>
     <div class="preview elevation-1" v-if="selectedItem != null">
       <v-toolbar flat dense>
+        <img class="resource-icon" v-if="selectedItem.__icon" :src="selectedItem.__icon" />
+        <v-icon color="grey lighten-1" class="resource-icon" v-if="!selectedItem.__icon">widgets</v-icon>
         <h2 class="title">{{selectedItem.name}}</h2>
         <v-spacer />
         <v-btn small icon @click="selectedItem = null">
@@ -118,6 +120,7 @@ export default class Canoe extends Vue {
   margin-left: 10px;
   padding: 10px;
   width: 400px;
+  background-color: $table-background;
 }
 
 .resource-icon {
