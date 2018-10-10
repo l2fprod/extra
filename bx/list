@@ -1,0 +1,42 @@
+{
+  "plugins": [
+    {
+      "name": "extra",
+      "aliases": [],
+      "description": "Another dashboard for IBM Cloud",
+      "created": "2018-10-01T00:00:00Z",
+      "updated": "2018-10-10T14:49:13Z",
+      "company": "l2fprod",
+      "homepage": "https://github.com/l2fprod/extra",
+      "authors": [],
+      "versions": [
+        {
+          "version": "0.0.5",
+          "updated": "2018-10-10T14:49:13Z",
+          "doc_url": "",
+          "min_cli_version": "",
+          "binaries": [
+            {
+              "platform": "win64",
+              "url": "https://github.com/l2fprod/extra/releases/download/0.0.5/extra-windows-amd64-0.0.5",
+              "checksum": "ba7ce95a6087236bba4127e52490ad288cc6b2bd"
+            },
+            {
+              "platform": "linux64",
+              "url": "https://github.com/l2fprod/extra/releases/download/0.0.5/extra-linux-amd64-0.0.5",
+              "checksum": "36914301f2d37b0a6dd7a55c807718e145cb25d8"
+            },
+            {
+              "platform": "osx",
+              "url": "https://github.com/l2fprod/extra/releases/download/0.0.5/extra-darwin-amd64-0.0.5",
+              "checksum": "a038421265a31101104640656b3d53fdf23827bf"
+            }
+          ],
+          "api_versions": null,
+          "releaseNotesLink": ""
+        }
+      ],
+      "tags": null
+    }
+  ]
+}
