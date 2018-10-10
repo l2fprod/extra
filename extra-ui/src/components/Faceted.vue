@@ -1,7 +1,7 @@
 <template>
   <div class="filters" :style="cssProps">
     <v-expansion-panel expand>
-      <v-expansion-panel-content value="true">
+      <v-expansion-panel-content>
         <div slot="header">
           <span class="filter-title" v-bind:class="{'has-filter-selected': selectedGroups.length > 0}">Resource Group</span>
         </div>
