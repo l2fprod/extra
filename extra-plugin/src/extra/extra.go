@@ -63,7 +63,7 @@ func (pluginDemo *ExtraPlugin) GetMetadata() plugin.PluginMetadata {
 			{
 				Name:        "extra",
 				Alias:       "xt",
-				Description: "an extension for IBM Cloud.",
+				Description: "Another dashboard for IBM Cloud",
 				Usage:       "ibmcloud extra",
 			},
 		},

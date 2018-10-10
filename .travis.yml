@@ -5,14 +5,24 @@ go:
 
 install: true
 
-script: ./build.sh
+script:
+- ./build.sh
+- ./publish.sh
 
-deploy:
-  provider: releases
-  api_key:
-    secure: "jGMgNt0f8dzOUJTvm50ldIebvL+ZoR1JbhF35W/GXp/YazlqHgAcWiVRxCy9vRvIYgZaj3jPedDSeikptTQREYbwl1M2eUwCXOCa8Gm8W80abdi2u7GATd4mpcC16nQRzJBVd4112Auy3zmzh/0M7n7j+rA3evMFWfR7HhRevMeC+ZrEC/efCttLRkze7aZhAUqGwMNB0DYawYQM3QztNFjzv5RUEMSdBKb5sD7KNHDFvd16xlDOfv8SuVRVNVDhiBxYfJ/+8rZFfM3pqBR/nzSR2FwTU6gkdNhfx6UFncMAoLoYC9/jLEvh7F0vou+0gsjj7KnTjcO1yHLgB5PL5hvoXwhrV92qH5kmGe6OUU4QqFecczZfLNEkSPKHXQvluHK4JiSdPO/DkhyxpTlEWXOBVRaym0YmQ2HLVcX/oKDy0CYo+o67I6TC2KZiUrl9Y90FdWaqy0Pb4lX0WoNCJOV9G33JC3d6D2Pan5cBNL/o5abmzPld6Z7eez0gxW16poaMGpQ4RQZ9ZsErc8VskmnHQRPF497liRhpWvmoVQuhjmkwOJVU2LhutkSGiqtjQGkFmhyubv4gUOCF88rs6bTfIWJNPmuQ3jFU0sHpIZsbB3GAtZy6R2VNxjJTIw4rWyXL1Etia9dF2UR+OnDZwwQ5wFeaAG/9PPMBSBHCFYE="
-  file_glob: true
-  file: extra-plugin/src/extra/build/extra-*
-  skip_cleanup: true
-  on:
-    tags: true
+# deploy:
+# - provider: releases
+#   api_key:
+#     secure: "jGMgNt0f8dzOUJTvm50ldIebvL+ZoR1JbhF35W/GXp/YazlqHgAcWiVRxCy9vRvIYgZaj3jPedDSeikptTQREYbwl1M2eUwCXOCa8Gm8W80abdi2u7GATd4mpcC16nQRzJBVd4112Auy3zmzh/0M7n7j+rA3evMFWfR7HhRevMeC+ZrEC/efCttLRkze7aZhAUqGwMNB0DYawYQM3QztNFjzv5RUEMSdBKb5sD7KNHDFvd16xlDOfv8SuVRVNVDhiBxYfJ/+8rZFfM3pqBR/nzSR2FwTU6gkdNhfx6UFncMAoLoYC9/jLEvh7F0vou+0gsjj7KnTjcO1yHLgB5PL5hvoXwhrV92qH5kmGe6OUU4QqFecczZfLNEkSPKHXQvluHK4JiSdPO/DkhyxpTlEWXOBVRaym0YmQ2HLVcX/oKDy0CYo+o67I6TC2KZiUrl9Y90FdWaqy0Pb4lX0WoNCJOV9G33JC3d6D2Pan5cBNL/o5abmzPld6Z7eez0gxW16poaMGpQ4RQZ9ZsErc8VskmnHQRPF497liRhpWvmoVQuhjmkwOJVU2LhutkSGiqtjQGkFmhyubv4gUOCF88rs6bTfIWJNPmuQ3jFU0sHpIZsbB3GAtZy6R2VNxjJTIw4rWyXL1Etia9dF2UR+OnDZwwQ5wFeaAG/9PPMBSBHCFYE="
+#   file_glob: true
+#   file: extra-plugin/src/extra/build/extra-*
+#   skip_cleanup: true
+#   on:
+#     tags: true
+# - provider: pages
+#   local-dir: gh-pages
+#   skip-cleanup: true
+#   github-token:
+#     secure: "jGMgNt0f8dzOUJTvm50ldIebvL+ZoR1JbhF35W/GXp/YazlqHgAcWiVRxCy9vRvIYgZaj3jPedDSeikptTQREYbwl1M2eUwCXOCa8Gm8W80abdi2u7GATd4mpcC16nQRzJBVd4112Auy3zmzh/0M7n7j+rA3evMFWfR7HhRevMeC+ZrEC/efCttLRkze7aZhAUqGwMNB0DYawYQM3QztNFjzv5RUEMSdBKb5sD7KNHDFvd16xlDOfv8SuVRVNVDhiBxYfJ/+8rZFfM3pqBR/nzSR2FwTU6gkdNhfx6UFncMAoLoYC9/jLEvh7F0vou+0gsjj7KnTjcO1yHLgB5PL5hvoXwhrV92qH5kmGe6OUU4QqFecczZfLNEkSPKHXQvluHK4JiSdPO/DkhyxpTlEWXOBVRaym0YmQ2HLVcX/oKDy0CYo+o67I6TC2KZiUrl9Y90FdWaqy0Pb4lX0WoNCJOV9G33JC3d6D2Pan5cBNL/o5abmzPld6Z7eez0gxW16poaMGpQ4RQZ9ZsErc8VskmnHQRPF497liRhpWvmoVQuhjmkwOJVU2LhutkSGiqtjQGkFmhyubv4gUOCF88rs6bTfIWJNPmuQ3jFU0sHpIZsbB3GAtZy6R2VNxjJTIw4rWyXL1Etia9dF2UR+OnDZwwQ5wFeaAG/9PPMBSBHCFYE="
+#   keep_history: true
+#   on:
+#     tags: true
