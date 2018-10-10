@@ -112,16 +112,13 @@ export default new Vuex.Store({
         .map((item: Item) => item.name))];
     },
     spaces: (state: State) => (organization: string): Array<string | undefined> => {
-      console.log('getting spaces for', organization);
       const orgs: CloudFoundryOrganization[] =
         (state.resourcesByType.get('cf-organization')!
           .filter((item: Item) => item.name === organization) as CloudFoundryOrganization[]);
-      console.log('found', orgs.length, ' orgs');
       let allSpaces: string[] = [];
       orgs.forEach((org) => {
         allSpaces = allSpaces.concat(org.__spaces.map((space) => space.name!));
       });
-      console.log('found', allSpaces.length, 'spaces');
       return [...new Set(allSpaces)];
     },
     regions: (state: State): Array<string | undefined> => {
