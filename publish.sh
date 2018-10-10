@@ -18,4 +18,4 @@ cd gh-pages
 git checkout gh-pages
 rm -rf .git
 
-cat bx/list.template.json | envsubst
+cat bx/list.template.json | envsubst > bx/list
