@@ -1,6 +1,7 @@
 import Item from './Item';
 import ItemLookup from '@/models/ItemLookup';
 import ItemDoc from '@/models/ItemDoc';
+import MyCatalog from '@/services/MyCatalog';
 
 class Doc extends ItemDoc {
   public space_guid?: string;
@@ -23,7 +24,12 @@ export default class CloudFoundryServiceInstance extends Item {
 
   public resolved() {
     super.resolved();
-    this.__extendedType = this.service_name;
+
+    const entry = MyCatalog.getEntry(this.service_name);
+    if (entry) {
+      this.__extendedType = entry.displayName;
+      this.__icon = entry.imageUrl;
+    }
   }
 
   public toText(): string {

@@ -18,8 +18,14 @@
         <template slot="items" slot-scope="props">
           <tr @click="select(props.item)" :class="{ selected: selectedItem == props.item }">
             <td>
-              <a class="secondary--text" v-if="props.item.__dashboardUrl" :href="props.item.__dashboardUrl">{{ props.item.name }}</a>
-              <span class="secondary--text" v-else>{{ props.item.name }}</span>
+              <v-layout row align-center>
+                <img class="resource-icon" v-if="props.item.__icon" :src="props.item.__icon" />
+                <span class="resource-icon" v-if="!props.item.__icon" />
+                <a class="secondary--text" v-if="props.item.__dashboardUrl" :href="props.item.__dashboardUrl">
+                  {{ props.item.name }}
+                </a>
+                <span class="secondary--text" v-else>{{ props.item.name }}</span>
+              </v-layout>
             </td>
             <td class="text-xs-right">{{ props.item.__extendedType }}</td>
             <td width="100" class="text-nowrap text-xs-right">{{ props.item.region }}</td>
@@ -112,6 +118,12 @@ export default class Canoe extends Vue {
   margin-left: 10px;
   padding: 10px;
   width: 400px;
+}
+
+.resource-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
 tr.selected {

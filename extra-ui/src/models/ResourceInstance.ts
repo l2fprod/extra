@@ -1,6 +1,7 @@
 import Item from '@/models/Item';
 import ResourceGroup from '@/models/ResourceGroup';
 import ItemLookup from '@/models/ItemLookup';
+import MyCatalog from '@/services/MyCatalog';
 
 export default class ResourceInstance extends Item {
 
@@ -23,7 +24,12 @@ export default class ResourceInstance extends Item {
 
   public resolved() {
     super.resolved();
-    this.__extendedType = this.service_name;
+
+    const entry = MyCatalog.getEntry(this.service_name);
+    if (entry) {
+      this.__extendedType = entry.displayName;
+      this.__icon = entry.imageUrl;
+    }
   }
 
   public toText(): string {

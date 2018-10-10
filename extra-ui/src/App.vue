@@ -86,6 +86,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Avatar from '@/components/Avatar.vue';
 import Faceted from '@/components/Faceted.vue';
 import Loading from '@/components/Loading.vue';
+import MyCatalog from '@/services/MyCatalog';
 
 @Component({
   components: {
@@ -131,9 +132,16 @@ export default class App extends Vue {
     (this.$refs.faceted as Faceted).resetFilter();
   }
 
-  protected mounted() {
-    this.$store.dispatch('get');
-    this.$store.dispatch('login');
+  protected async mounted() {
+    await this.$store.dispatch('loading', true);
+    try {
+      await MyCatalog.initialize();
+
+      this.$store.dispatch('get');
+      this.$store.dispatch('login');
+    } finally {
+      await this.$store.dispatch('loading', false);
+    }
   }
 
   get searchWord() {
