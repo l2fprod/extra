@@ -33,6 +33,6 @@ export default class ResourceInstance extends Item {
   }
 
   public toText(): string {
-    return super.toText() + (this.service_name || '');
+    return super.toText() + ' ' + (this.service_name || '');
   }
 }
