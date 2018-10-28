@@ -21,6 +21,7 @@ export interface Location {
   id: string;
   kind: string;
   extension?: LocationExtension;
+  overview_ui: any;
 }
 
 // index locations and augment them for additional metadata
@@ -30,9 +31,10 @@ locations.forEach((location: Location) => traverse(location, (node: any) => {
     console.warn('Found duplication location!', node.id);
   }
   idToLocation[node.id] = node;
-  if (locationMetadata[node.id]) {
+  if ((locationMetadata as any)[node.id]) {
     node.extension = {};
-    Object.keys(locationMetadata[node.id]).forEach((key) => node.extension[key] = locationMetadata[node.id][key]);
+    Object.keys((locationMetadata as any)[node.id])
+      .forEach((key) => node.extension[key] = (locationMetadata as any)[node.id][key]);
   }
 }));
 

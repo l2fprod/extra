@@ -51,8 +51,8 @@ export default class Map extends Vue {
 
   get markers() {
     const markers: any[] = [];
-    const totalCount = this.$store.state.filteredResources.length;    
-    Locations.locationsWithCoordinates.forEach((location:Location) => {
+    const totalCount = this.$store.state.filteredResources.length;
+    Locations.locationsWithCoordinates.forEach((location: Location) => {
       const regionCount = this.$store.getters.filteredResources(new RegionFilter(location.id)).length;
       if (regionCount === 0) {
         return;
@@ -67,15 +67,6 @@ export default class Map extends Vue {
       });
     });
     return markers;
-  }
-  public radiusForLocation(location: Location): number {
-    const totalCount = this.$store.state.filteredResources.length;    
-    const regionCount = this.$store.getters.filteredResources(new RegionFilter(location.id)).length;
-    if (regionCount === 0) {
-      return 0;
-    }
-    const radius = Math.max(100000, 1000000 * regionCount / totalCount);
-    return radius;
   }
 }
 </script>
