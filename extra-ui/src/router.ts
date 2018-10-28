@@ -12,17 +12,17 @@ export default new Router({
       path: '/canoe',
       name: 'canoe',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (canoe.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Canoe.vue'),
+      component: () => import(/* webpackChunkName: "canoe" */ './views/Canoe.vue'),
     },
     {
       path: '/map',
       name: 'map',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk (map.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Map.vue'),
+      component: () => import(/* webpackChunkName: "map" */ './views/Map.vue'),
     },
     {
       path: '*',
