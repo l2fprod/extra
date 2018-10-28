@@ -51,6 +51,4 @@ const MyCatalog = {
   },
 };
 
-
-
 export default MyCatalog;
