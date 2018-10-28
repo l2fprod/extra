@@ -49,17 +49,24 @@
     <v-content class="app-content">
       <v-container column fluid fill-height class="app-container">
         <v-layout column fill-height>
-        <div class="item-count">
-          <span class="font-weight-bold">{{ $store.state.filteredResources.length }}</span>
-          of
-          <v-tooltip bottom>
-            <span slot="activator" class="reset-filter" @click="resetFilter">
-              {{ $store.state.resources.length }} resources
-            </span>
-            <span>Clear search and filters</span>
-          </v-tooltip>
-        </div>
-        <router-view />
+          <v-layout row class="item-count" align-center>
+            <div>
+              <span class="font-weight-bold">{{ $store.state.filteredResources.length }}</span>
+              of
+              <v-tooltip top>
+                <span slot="activator" class="reset-filter" @click="resetFilter">
+                  {{ $store.state.resources.length }} resources
+                </span>
+                <span>Clear search and filters</span>
+              </v-tooltip>
+            </div>
+            <v-spacer/>
+            <div>
+              <v-btn small to="canoe">View as table</v-btn>
+              <v-btn small to="map">View as map</v-btn>
+            </div>
+          </v-layout>
+          <router-view />
         </v-layout>
       </v-container>
     </v-content>
@@ -178,6 +185,9 @@ export default class App extends Vue {
   padding: 0px;
 }
 .item-count {
-  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>
