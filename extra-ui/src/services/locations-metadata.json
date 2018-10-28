@@ -1,0 +1,38 @@
+{
+  "us-south": {
+    "marker": {
+      "latitude": 32.794176,
+      "longitude": -96.765503
+    }
+  },
+  "us-east": {
+    "marker": {
+      "latitude": 38.9071923,
+      "longitude": -77.0368707
+    }
+  },
+  "eu-de": {
+    "marker": {
+      "latitude": 50.110922,
+      "longitude": 8.682127
+    }
+  },
+  "eu-gb": {
+    "marker": {
+      "latitude": 51.5073509,
+      "longitude": -0.1277583
+    }
+  },
+  "au-syd": {
+    "marker": {
+      "latitude": -33.867487,
+      "longitude": 151.206990
+    }
+  },
+  "jp-tok": {
+    "marker": {
+      "latitude": 35.709026,
+      "longitude": 139.731992
+    }
+  }
+}
