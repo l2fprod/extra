@@ -57,7 +57,7 @@ func (pluginDemo *ExtraPlugin) GetMetadata() plugin.PluginMetadata {
 		Version: plugin.VersionType{
 			Major: 0,
 			Minor: 0,
-			Build: 5,
+			Build: 6,
 		},
 		Commands: []plugin.Command{
 			{
