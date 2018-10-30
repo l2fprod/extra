@@ -115,6 +115,15 @@ export default class Faceted extends Vue {
   public selectedSpaces: SpaceNameToBoolean = {};
   private types = TYPES;
 
+  public resetFilter() {
+    this.selectedGroups = [];
+    this.selectedTypes = [];
+    this.selectedRegions = [];
+    this.selectedOrgs = [];
+    this.selectedSpaces = {};
+    this.updateFilter();
+  }
+
   public countInGroup(group: ResourceGroup) {
     return this.$store.getters.filteredResources(new ResourceGroupFilter(group.crn!)).length;
   }
@@ -137,14 +146,6 @@ export default class Faceted extends Vue {
         new CloudFoundryOrganizationFilter(organization),
         new CloudFoundrySpaceFilter(space),
     ])).length;
-  }
-
-  public resetFilter() {
-    this.selectedGroups = [];
-    this.selectedTypes = [];
-    this.selectedRegions = [];
-    this.selectedOrgs = [];
-    this.updateFilter();
   }
 
   public updateFilter() {
