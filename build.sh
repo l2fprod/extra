@@ -1,5 +1,5 @@
 #!/bin/bash
-(cd extra-ui && npm install && yarn build)
+(cd extra-ui && yarn && yarn build)
 
 rm -rf extra-plugin/src/extra/public/css
 rm -rf extra-plugin/src/extra/public/js
