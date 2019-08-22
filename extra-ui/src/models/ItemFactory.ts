@@ -55,6 +55,7 @@ export function createItem(item: any): Item {
 
   if (type != null) {
     subclass = type.factory();
+    subclass.__type = type;
   } else {
     console.log(`Type ${item.type} is not supported`);
     subclass = new Item();

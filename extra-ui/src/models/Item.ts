@@ -1,7 +1,10 @@
 import ItemDoc from '@/models/ItemDoc';
 import ItemLookup from '@/models/ItemLookup';
+import { ItemType } from '@/models/ItemFactory';
 
 export default class Item {
+
+  public __type?: ItemType;
 
   public crn?: string;
   public resource_id?: string;
@@ -25,7 +28,7 @@ export default class Item {
 
   //
   public resolved() {
-    this.__extendedType = this.type;
+    this.__extendedType = this.__type ? this.__type.name : this.type;
     this.__pathToRoot = this.parents().map((item): string => item.name!).join(' / ');
   }
 
