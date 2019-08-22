@@ -5,7 +5,7 @@
         :headers="[
           { text: 'Name', value: 'name' },
           { text: 'Type', value: '__extendedType', },
-          { text: 'Region', value: 'region', align: 'center', },
+          { text: 'Location', value: 'region', align: 'center', },
           { text: 'Group', value: '__pathToRoot', align: 'center', },
           { text: 'Status', value: '__status', align: 'center', },
           { text: 'Age', value: 'creation_date', align: 'right' }
