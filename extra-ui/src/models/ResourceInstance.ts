@@ -19,6 +19,9 @@ export default class ResourceInstance extends Item {
     if (this.doc && this.doc.resource_group_crn) {
       this.__resourceGroup = lookup.findByCrn(this.doc.resource_group_crn);
       this.__parent = this.__resourceGroup;
+    } else if (this.doc && this.doc.resource_group && this.doc.resource_group.id) {
+      this.__resourceGroup = lookup.findByResourceId(this.doc.resource_group.id);
+      this.__parent = this.__resourceGroup;
     }
   }
 
