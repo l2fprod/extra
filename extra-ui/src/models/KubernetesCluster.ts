@@ -14,7 +14,7 @@ export default class KubernetesCluster extends ResourceInstance {
 
   public resolveDependencies(lookup: ItemLookup) {
     super.resolveDependencies(lookup);
-    this.__dashboardUrl = 'https://console.bluemix.net/containers-kubernetes/clusters/' +
+    this.__dashboardUrl = 'https://cloud.ibm.com/containers-kubernetes/clusters/' +
       `${this.service_instance}/overview?region=${this.region}`;
 
     if (this.doc && this.doc.resource_group_id) {

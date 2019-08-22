@@ -7,7 +7,7 @@ export default class Toolchain extends ResourceInstance {
     super.resolveDependencies(lookup);
 
     this.__dashboardUrl =
-    `https://console.bluemix.net/devops/toolchains/${this.service_instance}?env_id=ibm:yp:${this.region}`;
+    `https://cloud.ibm.com/devops/toolchains/${this.service_instance}?env_id=ibm:yp:${this.region}`;
   }
 
 }

@@ -11,6 +11,6 @@ export default class ResourceAlias extends Item {
   public resolveDependencies(lookup: ItemLookup) {
     super.resolveDependencies(lookup);
     this.__dashboardUrl =
-      `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
+      `https://cloud.ibm.com/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
   }
 }

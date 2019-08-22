@@ -8,6 +8,5 @@ export default class CloudFoundryOrganization extends Item {
 
   public resolveDependencies(lookup: ItemLookup) {
     super.resolveDependencies(lookup);
-    // this.__dashboardUrl = `https://console.bluemix.net/apps/${this.resource_id}?region=${this.region}`;
   }
 }

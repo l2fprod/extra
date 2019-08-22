@@ -17,7 +17,7 @@ export default class CloudFoundryServiceInstance extends Item {
   public resolveDependencies(lookup: ItemLookup) {
     super.resolveDependencies(lookup);
     this.__dashboardUrl =
-      `https://console.bluemix.net/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
+      `https://cloud.ibm.com/services/${this.service_name}/${this.service_instance}?region=${this.region}`;
     this.__parent = lookup.getByType('cf-space')
       .find((item: Item) => this.doc!.space_guid! === item.resource_id);
   }
