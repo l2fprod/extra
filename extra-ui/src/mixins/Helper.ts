@@ -6,7 +6,7 @@ export const mixin = {
       return formatDistance(new Date(date), new Date());
     },
     humanDate: (date: string) => {
-      return format(date, 'PPPPpppp');
+      return format(new Date(date), 'PPPPpppp');
     },
   },
 };
