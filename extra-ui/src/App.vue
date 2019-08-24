@@ -51,11 +51,15 @@
         <v-layout column fill-height>
           <v-layout row class="item-count" align-center>
             <div>
-              <v-tooltip top>                
+              <v-tooltip top>
                 <v-btn slot="activator" icon small to="canoe"><v-icon>view_list</v-icon></v-btn>
                 <span>View as table</span>
               </v-tooltip>
-              <v-tooltip top>                
+              <v-tooltip top>
+                <v-btn slot="activator" icon small to="vpc"><v-icon>cloud_queue</v-icon></v-btn>
+                <span>Switch to VPC-centric view</span>
+              </v-tooltip>
+              <v-tooltip top>
                 <v-btn slot="activator" icon small to="map"><v-icon>language</v-icon></v-btn>
                 <span>View resources on a world map</span>
               </v-tooltip>
@@ -176,6 +180,12 @@ export default class App extends Vue {
 }
 .text-nowrap {
   white-space: nowrap;
+}
+.text-ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 200px;
 }
 </style>
 

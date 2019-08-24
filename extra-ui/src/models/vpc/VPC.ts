@@ -1,7 +1,10 @@
 import ResourceInstance from '@/models/ResourceInstance';
 import ItemLookup from '@/models/ItemLookup';
+import Subnet from './Subnet';
 
 export default class VPC extends ResourceInstance {
+
+  public __subnets: Subnet[] = [];
 
   public resolveDependencies(lookup: ItemLookup) {
     super.resolveDependencies(lookup);
