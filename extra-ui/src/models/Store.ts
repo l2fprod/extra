@@ -104,6 +104,9 @@ export default new Vuex.Store({
     filteredResources: (state: State) => (filter: Filter): Item[] => {
       return state.filteredResources.filter((item) => filter.accept(item));
     },
+    filteredByType: (state: State) => (type: string): Item[] | undefined => {
+      return state.filteredByType.get(type);
+    },
     resourcesByType: (state: State) => (type: string): Item[] | undefined => {
       return state.resourcesByType.get(type);
     },
