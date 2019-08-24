@@ -8,7 +8,8 @@
           { text: 'Location', value: 'region', align: 'center', },
           { text: 'Group', value: '__pathToRoot', align: 'center', },
           { text: 'Status', value: '__status', align: 'center', },
-          { text: 'Age', value: 'creation_date', align: 'right' }
+          { text: 'Age', value: 'creation_date', align: 'right' },
+          { text: 'Created By', value: 'created_by', align: 'right' }
         ]"
         :items="$store.state.filteredResources"
         hide-actions
@@ -27,7 +28,7 @@
                 <span class="secondary--text" v-else>{{ props.item.name }}</span>
               </v-layout>
             </td>
-            <td class="text-xs-right">{{ props.item.__extendedType }}</td>
+            <td class="text-ellipsis text-xs-right">{{ props.item.__extendedType }}</td>
             <td width="100" class="text-nowrap text-xs-right">{{ props.item.region }}</td>
             <td class="text-xs-left">
               <v-chip v-for="parent in props.item.parents()" v-bind:key="parent.resource_id"
@@ -39,6 +40,12 @@
               <v-tooltip top>
                 <span slot="activator">{{ relativeDate(props.item.creation_date) }}</span>
                 <span>{{ humanDate(props.item.creation_date) }}</span>
+              </v-tooltip>
+            </td>
+            <td class="text-ellipsis text-xs-right">
+              <v-tooltip top>
+                <span slot="activator">{{ props.item.doc.created_by }}</span>
+                <span>{{ props.item.doc.created_by }}</span>
               </v-tooltip>
             </td>
           </tr>
