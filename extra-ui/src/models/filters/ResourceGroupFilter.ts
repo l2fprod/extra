@@ -11,10 +11,6 @@ export default class ResourceGroupFilter implements Filter {
   }
 
   public accept(item: Item): boolean {
-    if (item.__parent) {
-      return this.crn === item.__parent!.crn;
-    } else {
-      return false;
-    }
+    return item.parents().find((parent: Item) => this.crn === parent.crn) !== undefined;
   }
 }
