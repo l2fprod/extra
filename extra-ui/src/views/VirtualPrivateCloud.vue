@@ -4,8 +4,9 @@
       <v-data-table
         :headers="[
           { text: 'VPC', value: '__vpc.name' },
-          { text: 'Subnet', value: '__parent.name' },
+          { text: 'Subnet', value: '__subnet.name' },
           { text: 'Instance', value: 'name' },
+          { text: 'Resource Group', value: '__resourceGroup.name' },
           { text: 'Location', value: 'region', align: 'center' },
           { text: 'Private IP', value: 'doc.primary_network_interface.primary_ipv4_address' },
           { text: 'Floating IP', value: '__floatingIP.doc.address' },
@@ -19,8 +20,9 @@
         <template slot="items" slot-scope="props">
           <tr>
             <td>{{ props.item.__vpc.name }}</td>
-            <td>{{ props.item.__parent ? props.item.__parent.name : ''}}</td>
+            <td>{{ props.item.__subnet ? props.item.__subnet.name : ''}}</td>
             <td>{{ props.item.name }}</td>
+            <td>{{ props.item.__resourceGroup.name }}</td>
             <td>{{ props.item.region }}</td>
             <td>{{ props.item.doc.primary_network_interface.primary_ipv4_address }}</td>
             <td>{{ props.item.__floatingIP ? props.item.__floatingIP.doc.address : ''}}</td>
