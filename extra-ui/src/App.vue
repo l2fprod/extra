@@ -116,6 +116,7 @@ export default class App extends Vue {
 
   private drawer: boolean = true;
   private themeDark: boolean = false;
+  private triggerSearchTimeout: number = 0;
 
   public toggleTheme() {
     this.themeDark = !this.themeDark;
@@ -165,9 +166,15 @@ export default class App extends Vue {
     return this.$store.state.searchWord;
   }
 
-  set searchWord(value) {
-    this.$store.dispatch('search', value);
+  set searchWord(value: string) {
+    clearTimeout(this.triggerSearchTimeout);
+
+    const self = this;
+    this.triggerSearchTimeout = setTimeout(function() {
+      self.$store.dispatch('search', value.trim());
+    }, 500);
   }
+
 }
 </script>
 
