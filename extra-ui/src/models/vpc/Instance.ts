@@ -42,7 +42,8 @@ export default class Instance extends ResourceInstance {
     this.__floatingIP = lookup.getByType('floating-ip')
       .find((item: Item) => {
         const fip: FloatingIP = item as FloatingIP;
-        return (fip.doc!.target !== null) && (fip.doc!.target!.id! === this.doc!.primary_network_interface!.id!);
+        return fip.doc!.target
+          && (fip.doc!.target!.id! === this.doc!.primary_network_interface!.id!);
       }) as FloatingIP;
   }
 
