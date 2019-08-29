@@ -34,7 +34,8 @@ export default class Item {
 
   public toText(): string {
     return (this.name || '')
-      + ' ' + (this.__extendedType || '');
+      + ' ' + (this.__extendedType || '')
+      + ' ' + (this.region || '');
   }
 
   public parents(): Item[] {
