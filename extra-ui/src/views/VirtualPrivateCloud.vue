@@ -13,15 +13,27 @@
           { text: 'Age', value: 'creation_date', align: 'right' }
         ]"
         :items="instances"
-        hide-actions
+        hide-default-footer
         class="elevation-1 resources"
         no-data-text="No data available. Use the Refresh button or extend your search."
       >
-        <template slot="items" slot-scope="props">
+        <template slot="item" slot-scope="props">
           <tr>
-            <td>{{ props.item.__vpc.name }}</td>
-            <td>{{ props.item.__subnet ? props.item.__subnet.name : ''}}</td>
-            <td>{{ props.item.name }}</td>
+            <td>
+              <a class="secondary--text" :href="props.item.__vpc.__dashboardUrl">
+                {{ props.item.__vpc.name }}
+              </a>
+            </td>
+            <td>
+              <a class="secondary--text" v-if="props.item.__subnet" :href="props.item.__subnet.__dashboardUrl">
+                {{ props.item.__subnet.name }}
+              </a>
+            </td>
+            <td>
+              <a class="secondary--text" :href="props.item.__dashboardUrl">
+                {{ props.item.name }}
+              </a>
+            </td>
             <td>{{ props.item.__resourceGroup.name }}</td>
             <td>{{ props.item.region }}</td>
             <td>{{ props.item.doc.primary_network_interface.primary_ipv4_address }}</td>
@@ -57,8 +69,11 @@ export default class VirtualPrivateCloud extends Vue {
 
 <style lang="scss" scoped>
 .resources-container {
+  margin-left: 12px;
+  margin-right: 12px;
   margin-top: 0px;
   min-width: 200px;
+  height: 100%;
   flex: 1;
 }
 

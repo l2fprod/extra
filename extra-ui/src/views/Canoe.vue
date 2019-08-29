@@ -2,6 +2,7 @@
   <v-layout row fill-height :style="cssProps">
     <div class="resources-container">
       <v-data-table
+        disable-pagination
         :headers="[
           { text: 'Name', value: 'name' },
           { text: 'Type', value: '__extendedType', },
@@ -12,11 +13,12 @@
           { text: 'Created By', value: 'created_by', align: 'right' }
         ]"
         :items="$store.state.filteredResources"
-        hide-actions
+        hide-default-footer
+        multi-sort
         class="elevation-1 resources"
         no-data-text="No data available. Use the Refresh button or extend your search."
       >
-        <template slot="items" slot-scope="props">
+        <template slot="item" slot-scope="props">
           <tr @click="select(props.item)" :class="{ selected: selectedItem == props.item }">
             <td>
               <v-layout row align-center>
@@ -25,26 +27,34 @@
                 <a class="secondary--text" v-if="props.item.__dashboardUrl" :href="props.item.__dashboardUrl">
                   {{ props.item.name }}
                 </a>
-                <span class="secondary--text" v-else>{{ props.item.name }}</span>
+                <span class="secondary--text" v-else>
+                  {{ props.item.name }}
+                  </span>
               </v-layout>
             </td>
-            <td class="text-ellipsis text-xs-right">{{ props.item.__extendedType }}</td>
-            <td width="100" class="text-nowrap text-xs-right">{{ props.item.region }}</td>
+            <td class="text-ellipsis text-xs-right">
+              {{ props.item.__extendedType }}
+            </td>
+            <td width="100" class="text-nowrap text-xs-right">
+              {{ props.item.region }}
+            </td>
             <td class="text-xs-left">
               <v-chip v-for="parent in props.item.parents()" v-bind:key="parent.resource_id"
-                      disabled label outline small color="secondary"
+                      label outlined small color="secondary"
               >{{ parent.name }}</v-chip>
             </td>
-            <td width="100" class="text-xs-center">{{ props.item.__status }}</td>
+            <td width="100" class="text-xs-center">
+              {{ props.item.__status }}
+            </td>
             <td class="text-nowrap text-xs-right">
               <v-tooltip top>
-                <span slot="activator">{{ relativeDate(props.item.creation_date) }}</span>
+                <template v-slot:activator="{ on }"><span>{{ relativeDate(props.item.creation_date) }}</span></template>
                 <span>{{ humanDate(props.item.creation_date) }}</span>
               </v-tooltip>
             </td>
             <td class="text-ellipsis text-xs-right">
               <v-tooltip top>
-                <span slot="activator">{{ props.item.doc.created_by }}</span>
+                <template v-slot:activator="{ on }"><span>{{ props.item.doc.created_by }}</span></template>
                 <span>{{ props.item.doc.created_by }}</span>
               </v-tooltip>
             </td>
@@ -64,7 +74,7 @@
       </v-toolbar>
       <div>
         <v-chip v-for="parent in selectedItem.parents()" v-bind:key="parent.resource_id"
-          disabled label outline small color="secondary"
+          label outlined small color="secondary"
         >{{ parent.name }}</v-chip>
       </div>
       <CloudFoundryApplicationPreview :item="selectedItem" v-if="selectedItem.type == 'cf-application'" />
@@ -92,7 +102,7 @@ export default class Canoe extends Vue {
 
     get cssProps() {
     return {
-      '--highlight-background-color': this.$vuetify.theme.warning,
+      '--highlight-background-color': this.$vuetify.theme.themes.light.warning,
     };
   }
 }
@@ -112,19 +122,23 @@ export default class Canoe extends Vue {
 }
 
 .resources-container {
+  margin-left: 12px;
+  margin-right: 12px;
   margin-top: 0px;
   min-width: 200px;
+  height: 100%;
   flex: 1;
 }
 
 .resources {
-  max-height: 100%;
+  height: 100%;
   overflow-x: auto;
   overflow-y: auto;
 }
 
 .preview {
   margin-left: 10px;
+  margin-right: 20px;
   padding: 10px;
   width: 400px;
   background-color: $table-background;

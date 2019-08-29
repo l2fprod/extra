@@ -1,66 +1,66 @@
 <template>
-  <v-app id="app" :dark="themeDark">
+  <v-app id=app :dark="themeDark">
     <Loading :loading="$store.state.loading" />
+    <v-app-bar app clipped-left>
+      <v-toolbar
+      fixed
+      color="primary"
+      >
+        <v-app-bar-nav-icon class="white--text" @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
+          <span class="hidden-sm-and-down white--text">My Dashboard</span>
+        </v-toolbar-title>
+        <v-text-field
+          flat
+          dark
+          solo-inverted
+          hide-details
+          prepend-inner-icon="search"
+          label="Search resources"
+          class="hidden-sm-and-down search"
+          autofocus
+          v-model="searchWord"
+        ></v-text-field>
+        <v-spacer />
+        <v-btn color="error" v-on:click="refresh()">
+          Refresh
+        </v-btn>
+        <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
+        <v-btn large icon href="https://github.com/l2fprod/extra">
+          <v-icon>fab fa-github</v-icon>
+        </v-btn>
+        <v-btn large icon dark href="https://twitter.com/l2fprod">
+          <v-icon>fab fa-twitter</v-icon>
+        </v-btn>
+        <!-- <v-btn large icon @click="toggleTheme">
+          <v-icon v-show="themeDark==false">fas fa-lightbulb</v-icon>
+          <v-icon v-show="themeDark==true">far fa-lightbulb</v-icon>
+        </v-btn> -->
+      </v-toolbar>
+    </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      fixed
       app
+      clipped
+      width="300"
     >
       <Faceted ref="faceted" />
     </v-navigation-drawer>
-    <v-toolbar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      app
-      fixed
-      color="primary"
-    >
-      <v-toolbar-side-icon class="white--text" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title style="width: 240px" class="ml-0 pl-3">
-        <span class="hidden-sm-and-down white--text">My Dashboard</span>
-      </v-toolbar-title>
-      <v-text-field
-        flat
-        dark
-        solo-inverted
-        hide-details
-        prepend-inner-icon="search"
-        label="Search resources"
-        class="hidden-sm-and-down search"
-        autofocus
-        v-model="searchWord"
-      ></v-text-field>
-      <v-spacer />
-      <v-btn color="error" v-on:click="refresh()">
-        Refresh
-      </v-btn>
-      <!-- <Avatar :email="$store.state.user.Email" v-if="$store.state.user"/> -->
-      <v-btn large icon href="https://github.com/l2fprod/extra">
-        <v-icon>fab fa-github</v-icon>
-      </v-btn>
-      <v-btn large icon dark href="https://twitter.com/l2fprod">
-        <v-icon>fab fa-twitter</v-icon>
-      </v-btn>
-      <!-- <v-btn large icon @click="toggleTheme">
-        <v-icon v-show="themeDark==false">fas fa-lightbulb</v-icon>
-        <v-icon v-show="themeDark==true">far fa-lightbulb</v-icon>
-      </v-btn> -->
-    </v-toolbar>
     <v-content class="app-content">
       <v-container column fluid fill-height class="app-container">
         <v-layout column fill-height>
           <v-layout row class="item-count" align-center>
             <div>
               <v-tooltip top>
-                <v-btn slot="activator" icon small to="canoe"><v-icon>view_list</v-icon></v-btn>
+                <template v-slot:activator="{ on }"><v-btn icon small to="canoe"><v-icon>view_list</v-icon></v-btn></template>
                 <span>View as table</span>
               </v-tooltip>
               <v-tooltip top>
-                <v-btn slot="activator" icon small to="vpc"><v-icon>cloud_queue</v-icon></v-btn>
+                <template v-slot:activator="{ on }"><v-btn icon small to="vpc"><v-icon>cloud_queue</v-icon></v-btn></template>
                 <span>Switch to VPC-centric view</span>
               </v-tooltip>
               <v-tooltip top>
-                <v-btn slot="activator" icon small to="map"><v-icon>language</v-icon></v-btn>
+                <template v-slot:activator="{ on }"><v-btn icon small to="map"><v-icon>language</v-icon></v-btn></template>
                 <span>View resources on a world map</span>
               </v-tooltip>
             </div>
@@ -68,9 +68,9 @@
               <span class="font-weight-bold">{{ $store.state.filteredResources.length }}</span>
               of
               <v-tooltip top>
-                <span slot="activator" class="reset-filter" @click="resetFilter">
+                <template v-slot:activator="{ on }"><span class="reset-filter" @click="resetFilter">
                   {{ $store.state.resources.length }} resources
-                </span>
+                </span></template>
                 <span>Clear search and filters</span>
               </v-tooltip>
             </div>
@@ -92,7 +92,7 @@
         wrap
         white--text
       >
-        &copy; 2018 — <strong>fred</strong>
+        &copy; 2019 — <strong>fred</strong>
       </v-layout>
     </v-footer>
   </v-app>
@@ -121,8 +121,8 @@ export default class App extends Vue {
   public toggleTheme() {
     this.themeDark = !this.themeDark;
     if (this.themeDark) {
-      this.$vuetify.theme.primary = '#78909C';
-      this.$vuetify.theme.secondary = '#455A64';
+      this.$vuetify.theme.themes.dark.primary = '#78909C';
+      this.$vuetify.theme.themes.dark.secondary = '#455A64';
       //   accent: "#607D8B",
       //   error: "#f44336",
       //   warning: "#ffeb3b",
@@ -130,8 +130,8 @@ export default class App extends Vue {
       //   success: "#4caf50"
       // };
     } else {
-      this.$vuetify.theme.primary = '#197596';
-      this.$vuetify.theme.secondary = '#FFFFFF';
+      this.$vuetify.theme.themes.light.primary = '#197596';
+      this.$vuetify.theme.themes.light.secondary = '#FFFFFF';
       //   accent: '#42A5F5',
       //   error: '#f44336',
       //   warning: '#ffeb3b',
@@ -179,6 +179,15 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+.v-toolbar__content .v-toolbar {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.v-toolbar__content {
+  padding: 0;
+}
+
 .v-input__control {
   min-height: 36px !important;
 }
@@ -194,9 +203,16 @@ export default class App extends Vue {
   overflow: hidden;
   max-width: 200px;
 }
+.search input {
+  caret-color: red;
+}
 </style>
 
 <style lang="scss" scoped>
+#app .v-navigation-drawer__border {
+  display: none
+}
+
 .app-content {
   height: 100%;
 }
