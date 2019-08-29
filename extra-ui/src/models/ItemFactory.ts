@@ -21,6 +21,7 @@ import Subnet from './vpc/Subnet';
 import Key from './vpc/Key';
 import SecurityGroup from './vpc/SecurityGroup';
 import FileStorage from './FileStorage';
+import BlockStorage from './BlockStorage';
 
 export class ItemType {
   public id: string;
@@ -59,6 +60,7 @@ export const TYPES: ItemType[] = [
   new ItemType('security-group', 'Security Group for VPC', '', () => new SecurityGroup()),
 
   new ItemType('file-storage', 'File Storage', '', () => new FileStorage()),
+  new ItemType('block-storage', 'Block Storage', '', () => new BlockStorage()),
 ];
 
 const TYPESbyId: any = {};
